@@ -1,11 +1,12 @@
 import axios from "axios";
 import parse from "html-react-parser";
-import { ShoppingCart, Download, Share2 } from "lucide-react";
+import { ShoppingCart, Download } from "lucide-react";
 import { BgCard } from "@/components/cards";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
+import ClickToCopy from "@/components/project/ClickToCopy";
 
 // Define the project data type
 interface ProjectData {
@@ -34,9 +35,11 @@ type PageParams = {
     slug: string;
     id: string;
   }>;
-}
+};
 
-export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageParams): Promise<Metadata> {
   const resolvedParams = await params;
   const project = await getProjectData(resolvedParams.id);
 
@@ -93,13 +96,7 @@ export default async function ProjectPage({ params }: PageParams) {
 
             {/* Share button overlay */}
             <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <Button
-                variant="secondary"
-                size="icon"
-                className="bg-white/80 backdrop-blur-sm hover:bg-white"
-              >
-                <Share2 className="h-4 w-4" />
-              </Button>
+              <ClickToCopy />
             </div>
           </div>
 

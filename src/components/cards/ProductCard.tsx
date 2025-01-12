@@ -31,10 +31,12 @@ export function ProductCard({
     <Link href={`/projects/${category}/${slug}`}>
       <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg">
         <CardContent className="p-0">
-          <div className="relative  overflow-hidden bg-gray-100">
+          <div className="relative  overflow-hidden w-full h-auto bg-gray-100">
             <Image
               src={image}
               alt={title}
+              width={500}
+              height={500}
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
             {discount > 0 && (
