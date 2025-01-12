@@ -20,9 +20,19 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import useLoader from "@/hooks/use-loader";
 import Loader from "../shared/Loader";
+
+// Define the API response type
+interface ApiResponse {
+  text: string;
+}
+
+// Define the error response type
+interface ApiErrorResponse {
+  text: string;
+}
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -59,7 +69,7 @@ export function ContactForm() {
         formData.append(key, value);
       });
 
-      const response = await axios.post(
+      const response = await axios.post<ApiResponse>(
         `${process.env.NEXT_PUBLIC_BASE_URL}siteData`,
         formData
       );
@@ -74,18 +84,25 @@ export function ContactForm() {
         req_data: "SubmitContactFrom",
       });
       toast.success(response.data.text || "Message sent successfully!");
-    } catch (error: any) {
-      console.error("Full error object:", error);
-      console.error("Error response:", error.response?.data);
-      console.error("Error status:", error.response?.status);
-      toast.error(
-        error.response?.data?.text ||
-          "Failed to send message. Please try again."
-      );
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const typedError = error as AxiosError<ApiErrorResponse>;
+        console.error("Full error object:", typedError);
+        console.error("Error response:", typedError.response?.data);
+        console.error("Error status:", typedError.response?.status);
+        toast.error(
+          typedError.response?.data?.text ||
+            "Failed to send message. Please try again."
+        );
+      } else {
+        console.error("Unexpected error:", error);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     } finally {
       stopLoading();
     }
   };
+
   if (isLoading) return <Loader />;
   return (
     <Form {...form}>
