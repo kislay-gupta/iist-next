@@ -29,13 +29,16 @@ async function getProjectData(id: string): Promise<ProjectData | null> {
   }
 }
 
-type Props = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+type PageParams = {
+  params: Promise<{
+    slug: string;
+    id: string;
+  }>;
+}
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const project = await getProjectData(params.id);
+export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
+  const resolvedParams = await params;
+  const project = await getProjectData(resolvedParams.id);
 
   if (!project) {
     return {
@@ -53,8 +56,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ProjectPage({ params }: Props) {
-  const project = await getProjectData(params.id);
+export default async function ProjectPage({ params }: PageParams) {
+  const resolvedParams = await params;
+  const project = await getProjectData(resolvedParams.id);
 
   if (!project) {
     return (

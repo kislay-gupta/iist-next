@@ -20,11 +20,11 @@ interface Project {
   created: string;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+type PageParams = {
+  params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
   const { slug } = await params;
   const formattedSlug = slug
     .split("-")
@@ -48,11 +48,7 @@ async function getProducts(category: string) {
   }
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function Page({ params }: PageParams) {
   const { slug } = await params;
   const products = await getProducts(slug);
 
