@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import loginform from "@/assets/loginform.svg";
+import Image from "next/image";
 export function LoginForm({
   className,
   ...props
@@ -87,7 +88,9 @@ export function LoginForm({
             </div>
           </form>
           <div className="relative hidden bg-muted md:block">
-            <img
+            <Image
+              height={500}
+              width={500}
               src={loginform}
               alt="Image"
               className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.2] dark:grayscale"

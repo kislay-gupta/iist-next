@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PinContainer } from "../ui/3d-pin";
 
 export function AnimatedPinDemo({
@@ -17,7 +18,13 @@ export function AnimatedPinDemo({
             {title}
           </h3>
           <div className="text-base !m-0 !p-0 font-normal"></div>
-          <img src={image} alt={title} className="w-full h-full object-cover" />
+          <Image
+            width={500}
+            height={500}
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover"
+          />
         </div>
       </PinContainer>
     </div>

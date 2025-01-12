@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 import Link from "next/link";
 
 interface ProjectCardProps {
@@ -34,7 +35,13 @@ export function ProjectCard({
       <Card className="group overflow-hidden transition-all hover:shadow-lg">
         <CardContent className="p-4">
           <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-gray-100">
-            <img src={image} alt="" className="h-full w-full object-contain" />
+            <Image
+              width={500}
+              height={500}
+              src={image || ""}
+              alt=""
+              className="h-full w-full object-contain"
+            />
           </div>
           <div className="mt-4 flex items-center justify-between">
             <h3 className="font-semibold capitalize text-gray-900">{title}</h3>

@@ -1,5 +1,5 @@
 export type MenuLink = {
-  icon?: any;
+  icon?: LucideIcon;
   route: string;
   label: string;
   submenu?: MenuLink[];
@@ -38,7 +38,7 @@ import {
   Cpu,
   Car,
 } from "lucide-react";
-import type { LucideIcon } from 'lucide-react';
+import type { LucideIcon } from "lucide-react";
 
 export type Project = {
   title: string;
@@ -149,7 +149,7 @@ export const adminMenuLink: MenuLink[] = [
   {
     route: "/admin/dashboard",
     label: "Home",
-    icon: Home
+    icon: Home,
   },
   {
     route: "#",
@@ -159,7 +159,7 @@ export const adminMenuLink: MenuLink[] = [
       {
         route: "/admin/dashboard/add-category",
         label: "Add Category",
-        icon: Plus
+        icon: Plus,
       },
     ],
   },
@@ -171,33 +171,33 @@ export const adminMenuLink: MenuLink[] = [
       {
         route: "/admin/dashboard/add-project",
         label: "Add Project",
-        icon: Plus
+        icon: Plus,
       },
       {
         route: "/admin/dashboard/view-project",
         label: "View Project",
-        icon: Eye
+        icon: Eye,
       },
     ],
   },
   {
     route: "/admin/dashboard/settings",
     label: "Settings",
-    icon: Settings
+    icon: Settings,
   },
   {
     route: "/admin/dashboard/users",
     label: "Users",
-    icon: Users
+    icon: Users,
   },
   {
     route: "/admin/dashboard/messages",
     label: "Messages",
-    icon: MessageSquare
+    icon: MessageSquare,
   },
   {
     route: "/logout",
     label: "Logout",
-    icon: LogOut
-  }
+    icon: LogOut,
+  },
 ];

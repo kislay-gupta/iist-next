@@ -14,6 +14,7 @@ const AnimatedGrid = ({
   gridClassName = "grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
   isLoading = false,
 }: AnimatedGridProps) => {
+  if (isLoading) return null;
   return (
     <motion.div
       className={`${gridClassName} ${className}`}

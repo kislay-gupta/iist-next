@@ -21,7 +21,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import axios from "axios";
-import conf from "@/config/config";
 import useLoader from "@/hooks/use-loader";
 import Loader from "../shared/Loader";
 

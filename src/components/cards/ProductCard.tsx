@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface ProductCardProps {
   title: string;
@@ -31,7 +32,7 @@ export function ProductCard({
       <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg">
         <CardContent className="p-0">
           <div className="relative  overflow-hidden bg-gray-100">
-            <img
+            <Image
               src={image}
               alt={title}
               className="object-cover transition-transform duration-300 group-hover:scale-105"

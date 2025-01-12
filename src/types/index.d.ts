@@ -6,7 +6,7 @@ export interface TopBarLink {
 }
 
 export interface MenuLink {
-  icon?: any;
+  icon?: IconType;
   route: string;
   label: string;
   submenu?: MenuLink[]; // Optional submenu of the same structure
