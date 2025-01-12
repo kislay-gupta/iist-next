@@ -1,0 +1,49 @@
+/* Container for the entire Swiper component */
+.swiper-container {
+  width: 100%;
+  height: 100%; /* Reduced height for mobile */
+  z-index: 0;
+  cursor: grab;
+}
+
+/* Individual slides within the Swiper */
+.swiper-slide-content {
+  display: flex;
+  text-align: center;
+  font-size: 16px; /* Slightly smaller font size for mobile */
+  z-index: 0;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Image styling within each slide */
+.swiper-slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 0;
+  object-position: center;
+}
+
+/* Mobile-first approach */
+@media (min-width: 768px) {
+  .swiper-container {
+    height: 100%;
+  }
+  .swiper-slide-content {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .swiper-container {
+    height: 100%;
+  }
+}
+
+@media (min-width: 1536px) {
+  .swiper-container {
+    height: 100%;
+  }
+}
