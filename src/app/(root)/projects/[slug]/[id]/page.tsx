@@ -5,31 +5,45 @@ import { BgCard } from "@/components/cards";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { Metadata } from "next";
 
-async function getProjectData(id: string) {
+// Define the project data type
+interface ProjectData {
+  name: string;
+  imageLink: string;
+  pdfLink?: string;
+  price: string;
+  DiscPrice: string;
+  Description?: string;
+}
+
+async function getProjectData(id: string): Promise<ProjectData | null> {
   try {
-    const response = await axios.get(
+    const response = await axios.get<{ data: ProjectData[] }>(
       `${process.env.NEXT_PUBLIC_BASE_URL}projectData?req_data=getProjectBySlug&ProjectSlug=${id}`
     );
     return response.data.data[0];
   } catch (error) {
-    console.error('Error fetching project data:', error);
+    console.error("Error fetching project data:", error);
     return null;
   }
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const { id } = await params
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-  const project = await getProjectData(id);
-  
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const project = await getProjectData(params.id);
+
   if (!project) {
     return {
-      title: 'Project Not Found | Sparkovation Hub',
-      description: 'Project details could not be found',
+      title: "Project Not Found | Sparkovation Hub",
+      description: "Project details could not be found",
     };
   }
-  
+
   return {
     title: `${project.name} | Sparkovation Hub`,
     description: `${project.name} | Sparkovation Hub`,
@@ -39,10 +53,8 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
-export default async function ProjectPage({ params }: { params: { id: string } }) {
-  const { id } = await params
-
-  const project = await getProjectData(id);
+export default async function ProjectPage({ params }: Props) {
+  const project = await getProjectData(params.id);
 
   if (!project) {
     return (
@@ -89,9 +101,7 @@ export default async function ProjectPage({ params }: { params: { id: string } }
 
           {/* Action Buttons */}
           <div className="flex gap-4">
-            <Button
-              className="w-full h-12 text-lg bg-blue-600 hover:bg-blue-700 text-white"
-            >
+            <Button className="w-full h-12 text-lg bg-blue-600 hover:bg-blue-700 text-white">
               <ShoppingCart className="mr-2 h-5 w-5" />
               Add to Cart
             </Button>
@@ -129,7 +139,8 @@ export default async function ProjectPage({ params }: { params: { id: string } }
                     ₹{price}
                   </span>
                   <span className="text-sm font-medium text-green-600 bg-green-100 px-2 py-1 rounded">
-                    {Math.round((1 - Number(DiscPrice) / Number(price)) * 100)}% OFF
+                    {Math.round((1 - Number(DiscPrice) / Number(price)) * 100)}%
+                    OFF
                   </span>
                 </div>
               )}
