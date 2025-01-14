@@ -1,4 +1,5 @@
 
+import TextAnimation from '@/components/animations/TextAnimation';
 import ProjectComponent from '@/components/project/ProjectComponent'
 import Link from 'next/link';
 import React from 'react'
@@ -15,6 +16,8 @@ const Projects = () => {
         <span>/</span>
         <span>Projects</span>
       </nav>
+    <TextAnimation text="Project Categories" />
+      
         <ProjectComponent />
     </div>
   )

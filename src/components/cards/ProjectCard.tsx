@@ -7,6 +7,7 @@ interface ProjectCardProps {
   image?: string;
   slug?: string;
   isLoading?: boolean;
+  category?: "projects" | "blog";
 }
 
 export function ProjectCard({
@@ -14,6 +15,7 @@ export function ProjectCard({
   image,
   slug,
   isLoading = true,
+  category = "projects"
 }: ProjectCardProps) {
   if (isLoading) {
     return (
@@ -31,10 +33,9 @@ export function ProjectCard({
   }
 
   return (
-    <Link href={`/projects/${slug}`}>
+    <Link href={`/${category}/${slug}`}>
       <Card className="group overflow-hidden transition-all hover:shadow-lg">
-        <CardContent className="p-4">
-          <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-gray-100">
+          <div className="relative aspect-video w-full overflow-hidden rounded-t-lg bg-gray-100">
             <Image
               width={500}
               height={500}
@@ -43,7 +44,8 @@ export function ProjectCard({
               className="h-full w-full object-contain"
             />
           </div>
-          <div className="mt-4 flex items-center justify-between">
+        <CardContent className="p-4">
+          <div className=" flex items-center justify-between">
             <h3 className="font-semibold capitalize text-gray-900">{title}</h3>
           </div>
         </CardContent>
