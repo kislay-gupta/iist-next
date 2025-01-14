@@ -50,7 +50,7 @@ export default function HomeContent() {
             <HomeSlider />
           </div>
           
-          <div className="container lg:my-16 mx-8">
+          <div className="container w-4/5 lg:my-16 mx-8">
             <TextAnimation text="Project Categories" />
             
             <AnimatedGrid>

@@ -20,6 +20,18 @@ export const menuLink: MenuLink[] = [
     label: "About",
   },
   {
+    route: "/blog",
+    label: "Blog",
+  },
+  {
+    route: "/components",
+    label: "Components",
+  },
+  {
+    route: "/team",
+    label: "Team",
+  },
+  {
     route: "/contact",
     label: "Contact",
   },

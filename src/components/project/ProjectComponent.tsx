@@ -18,7 +18,7 @@ const ProjectComponent = () => {
       }
     
   return (
-    <div className="container lg:my-16 mx-8">
+    <div className="container lg:my-16 lg:mx-8">
     <TextAnimation text="Project Categories" />
     
     <AnimatedGrid>
