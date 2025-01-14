@@ -9,17 +9,15 @@ interface Blog {
 }
 
 type PageParams = {
-    params: Promise<{
-      slug: string;
-    }>;
-  };
+  params: Promise<{
+    slug: string;
+  }>;
+};
 
 async function getBlogPost(slug: string) {
   const res = await fetch(
     `https://api.iistbihar.com/api/v1/blogData?req_data=getBlogByCatSlug&CatSlug=${slug}`,
-    {
-      next: { revalidate: 3600 },
-    }
+    {}
   );
 
   if (!res.ok) {
@@ -29,9 +27,7 @@ async function getBlogPost(slug: string) {
   return res.json();
 }
 
-export default async function BlogPost({
-  params,
-}: PageParams) {
+export default async function BlogPost({ params }: PageParams) {
   const resolvedParams = await params;
 
   const post = await getBlogPost(resolvedParams.slug);
