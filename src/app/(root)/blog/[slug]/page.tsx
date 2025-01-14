@@ -1,9 +1,8 @@
-import React from 'react'
-
-const BlogBySlug = ({params}:{params:{slug:string}}) => {
-  return (
-    <div>BlogBySlug {params.slug}</div>
-  )
-}
-
-export default BlogBySlug
+export default async function Page({
+    params,
+  }: {
+    params: Promise<{ slug: string }>
+  }) {
+    const slug = (await params).slug
+    return <div>My Post: {slug}</div>
+  }
