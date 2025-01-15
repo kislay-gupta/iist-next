@@ -1,7 +1,9 @@
+import Image from "next/image";
+
 const EmptySearch = () => {
   return (
     <div className=" flex flex-col items-center justify-start">
-      <img
+      <Image
         src="/elements-search.png"
         alt="empty search"
         width={140}

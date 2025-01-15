@@ -1,5 +1,4 @@
 import * as React from "react"
-import Image from "next/image"
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { getProducts } from "@/hooks/get-product";

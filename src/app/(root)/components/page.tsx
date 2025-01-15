@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function ComponentsPage() {
   return (
@@ -8,12 +8,14 @@ export default function ComponentsPage() {
           <h1 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-4">
             Components
           </h1>
-          <div className="text-3xl font-semibold text-gray-700 mb-2">Coming Soon</div>
+          <div className="text-3xl font-semibold text-gray-700 mb-2">
+            Coming Soon
+          </div>
           <p className="text-xl text-gray-600">
-            We're crafting beautiful  components for you. Stay tuned!
+            We&apos;re crafting beautiful components for you. Stay tuned!
           </p>
         </div>
-        
+
         <div className="relative">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-24 h-24 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
