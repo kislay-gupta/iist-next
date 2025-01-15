@@ -18,8 +18,8 @@ export default function BlogCard({
   category,
 }: ProductCardProps) {
   return (
-    <Link href={`/blog/${category}/${slug}`}>
-      <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg w-[300px]">
+    <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg w-[300px]">
+      <Link href={`/blog/${category}/${slug}`}>
         <CardContent className="p-0">
           <div className="relative overflow-hidden w-full h-[200px] bg-gray-100">
             <Image
@@ -36,10 +36,8 @@ export default function BlogCard({
             </h3>
           </div>
         </CardContent>
-        <CardFooter className="p-5 pt-0">
-         
-        </CardFooter>
-      </Card>
-    </Link>
+        <CardFooter className="p-5 pt-0"></CardFooter>
+      </Link>
+    </Card>
   );
 }

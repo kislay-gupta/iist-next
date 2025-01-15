@@ -28,8 +28,8 @@ export function ProductCard({
   const discount = Math.round(((originalPrice - price) / originalPrice) * 100);
 
   return (
-    <Link href={`/projects/${category}/${slug}`}>
-      <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+      <Link href={`/projects/${category}/${slug}`}>
         <CardContent className="p-0">
           <div className="relative  overflow-hidden w-full h-auto bg-gray-100">
             <Image
@@ -70,7 +70,7 @@ export function ProductCard({
             Add to Cart
           </Button>
         </CardFooter>
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 }

@@ -19,7 +19,6 @@ import silder5 from "@/assets/slider/5.png";
 import styles from "./styles.module.css";
 
 const sliderImages = [silder1, silder2, silder3, silder4, silder5];
-
 export default function HomeSlider() {
   return (
     <>
