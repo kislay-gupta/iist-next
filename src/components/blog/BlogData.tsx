@@ -17,7 +17,7 @@ const BlogComponent = () => {
       }
     
   return (
-    <div className="container lg:my-16 ">
+    <div className="container lg:my-16 mx-auto">
     
     <AnimatedGrid>
       {categories?.data?.map((category: Category) => (

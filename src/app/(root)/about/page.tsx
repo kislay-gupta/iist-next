@@ -1,53 +1,20 @@
-"use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Cpu, Server, Wifi, Smartphone, Database, Code } from "lucide-react";
 import anand from "@/assets/anand.png";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import conf from "@/config/config";
+
 import Image from "next/image";
-interface Data {
-    _id: string;
-    text: string;
-    description: string;
-    ogImage: string;
-    slug: string;
-}
+
+
 export default function AboutUs() {
-  const [data, setData] = useState<Data | null>(null);
-  const getAbout = () => {
-    axios
-      .get(`${conf.baseUrl}/siteData?req_data=aboutSite`)
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
-    getAbout();
-  }, []);
+ 
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-
-      {/* Hero Section */}
-
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <motion.section
-          className="mb-12"
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
+        <section className="mb-12">
           <h3 className="text-3xl font-bold mb-6 text-gray-900">About Us</h3>
           <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-            {data?.text}
+            
           </p>
           <p className="text-lg text-gray-600 leading-relaxed">
             With a strong focus on academic and industrial projects, IIST, Bihar
@@ -56,15 +23,9 @@ export default function AboutUs() {
             assignments to industrial products, all of which focus on Embedded
             Systems and IoT applications.
           </p>
-        </motion.section>
+        </section>
 
-        <motion.section
-          className="mb-12"
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
+        <section className="mb-12">
           <h3 className="text-3xl font-bold mb-8 text-gray-900">
             Our Expertise
           </h3>
@@ -85,15 +46,9 @@ export default function AboutUs() {
               description="Innovative and cost-effective solutions for various industries"
             />
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
-          className="mb-12"
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
+        <section className="mb-12">
           <h3 className="text-3xl font-bold mb-8 text-gray-900">
             Project Domains
           </h3>
@@ -110,88 +65,11 @@ export default function AboutUs() {
               name="Raspberry Pi"
             />
           </div>
-        </motion.section>
+        </section>
       </main>
 
-      {/* Footer - Director's Message */}
-      <motion.footer
-        className="bg-gray-100 py-16 relative cursor-pointer"
-        initial={{ opacity: 1, y: 0 }}
-        whileInView={{ opacity: 1 }}
-        whileTap={{ scale: 0.98 }}
-        animate={{
-          y: 0,
-          rotate: 0,
-          scale: 1,
-        }}
-        onClick={() => {
-          const footer = document.querySelector("footer");
-          if (footer) {
-            // Create rocket flame effect
-            const flame = document.createElement("div");
-            flame.className =
-              "absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-32";
-            flame.style.background =
-              "linear-gradient(to top, #ff4d4d, #ff9933, transparent)";
-            flame.style.filter = "blur(8px)";
-            footer.appendChild(flame);
-
-            // Animate the flame
-            flame.animate(
-              [
-                { height: "32px", opacity: 0 },
-                { height: "128px", opacity: 1 },
-                { height: "256px", opacity: 0 },
-              ],
-              {
-                duration: 1000,
-                iterations: 1,
-              }
-            );
-
-            // Create smoke particles
-            for (let i = 0; i < 20; i++) {
-              const smoke = document.createElement("div");
-              smoke.className = "absolute bottom-0 rounded-full";
-              smoke.style.width = `${Math.random() * 20 + 10}px`;
-              smoke.style.height = smoke.style.width;
-              smoke.style.left = `${Math.random() * 100}%`;
-              smoke.style.background = "rgba(200, 200, 200, 0.3)";
-              footer.appendChild(smoke);
-
-              smoke.animate(
-                [
-                  { transform: "translateY(0) scale(1)", opacity: 0.8 },
-                  {
-                    transform: `translateY(-${
-                      Math.random() * 200 + 100
-                    }px) scale(2)`,
-                    opacity: 0,
-                  },
-                ],
-                {
-                  duration: 1500,
-                  easing: "ease-out",
-                }
-              ).onfinish = () => smoke.remove();
-            }
-          }
-        }}
-      >
-        <motion.div
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-          animate={{
-            y: [-1000, 0],
-            rotate: [-45, 0],
-            scale: [0.5, 1],
-          }}
-          transition={{
-            duration: 1.5,
-            type: "spring",
-            stiffness: 100,
-            damping: 10,
-          }}
-        >
+      <footer className="bg-gray-100 py-16 ">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h3 className="text-3xl font-bold mb-8 text-center text-gray-900">
             Message from the Director
           </h3>
@@ -202,10 +80,10 @@ export default function AboutUs() {
                 alt="Mr. Anand Vijay"
                 width={120}
                 height={120}
-                className="rounded-full shadow-md object-cover"
+                className="rounded-full  hover:animate-spin shadow-md object-cover"
               />
               <div className="text-center md:text-left">
-                <p className="font-bold text-2xl  text-blue-700 mb-1">
+                <p className="font-bold hover:animate-bounce text-2xl  text-blue-700 mb-1">
                   Mr. Anand Vijay
                 </p>
                 <p className="text-lg text-gray-600">
@@ -223,8 +101,8 @@ export default function AboutUs() {
               technology drives progress and innovation.&quot;
             </p>
           </div>
-        </motion.div>
-      </motion.footer>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -239,11 +117,7 @@ function ExpertiseCard({
   description: string;
 }) {
   return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 300 }}
-    >
+    <div className="transition-transform duration-200 hover:scale-105">
       <Card className="bg-white border-2 border-blue-500 hover:bg-blue-50 transition-all duration-200 hover:shadow-lg hover:border-blue-600">
         <CardContent className="p-6">
           <div className="flex items-center mb-4">
@@ -255,20 +129,15 @@ function ExpertiseCard({
           </p>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }
 
 function DomainTag({ icon, name }: { icon: React.ReactNode; name: string }) {
   return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      className="flex items-center gap-3 bg-white border-2 border-blue-500 hover:bg-blue-50 transition-colors duration-200 px-5 py-3 rounded-lg shadow-sm"
-    >
+    <div className="flex items-center gap-3 bg-white border-2 border-blue-500 hover:bg-blue-50 transition-all duration-200 hover:scale-105 px-5 py-3 rounded-lg shadow-sm">
       <div className="text-blue-600">{icon}</div>
       <span className="font-semibold text-base text-gray-800">{name}</span>
-    </motion.div>
+    </div>
   );
 }

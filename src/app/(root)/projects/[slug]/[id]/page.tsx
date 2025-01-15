@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import ClickToCopy from "@/components/project/ClickToCopy";
+import { MoreProject } from "@/components/project/MoreProject";
 
 // Define the project data type
 interface ProjectData {
@@ -200,6 +201,21 @@ export default async function ProjectPage({ params }: PageParams) {
               {Description && parse(Description)}
             </BgCard>
           </div>
+        </div>
+      </div>
+      <div className="mt-8">
+        <div className="flex justify-between">
+
+        <h2 className="text-2xl font-semibold mb-4 font-['Times_New_Roman']">
+          Similar Projects
+        </h2>
+        <Button>
+          <Link href={`/projects/${resolvedParams.slug}`}>View All</Link>
+        </Button>
+        </div>
+        <div className="w-full">
+          {/* Similar project cards */}
+          <MoreProject category={resolvedParams.slug} projects_slug={resolvedParams.id} />
         </div>
       </div>
     </div>
