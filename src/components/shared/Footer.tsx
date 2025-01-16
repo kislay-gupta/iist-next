@@ -141,7 +141,10 @@ export default function Footer() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Phone className="w-5 h-5 text-orange-500" />
-                <Link href="tel:+917295890160" className="hover:text-orange-500">
+                <Link
+                  href="tel:+917295890160"
+                  className="hover:text-orange-500"
+                >
                   +91-7295890160
                 </Link>
               </div>
@@ -182,7 +185,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-gray-800 mb-8 lg:mb-0 mt-12 pt-8 text-center text-sm text-gray-400">
+        <div className="border-t border-gray-800 mb-8 lg:mb-0 mt-6 lg:pt-4 text-center text-sm text-gray-400">
           <p>
             COPYRIGHT IIST BIHAR. All rights reserved | Designed & Maintained BY{" "}
             <Link
