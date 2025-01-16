@@ -5,7 +5,7 @@ import React from "react";
 
 const Projects = () => {
   return (
-    <div className="w-11/12 mx-auto px-4 py-8">
+    <div className="lg:w-11/12 mx-auto px-4 py-8">
       <nav className="mb-8 flex items-center gap-2 text-sm text-gray-600">
         <Link href="/" className="text-green-600 hover:underline">
           Home

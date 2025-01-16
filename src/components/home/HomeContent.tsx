@@ -64,13 +64,15 @@ export default function HomeContent() {
             <ScrollArea className="md:hidden   whitespace-nowrap rounded-md border">
               <div className="flex w-max space-x-4 p-4">
                 {categories?.data?.map((category: Category) => (
-                  <ProjectCard
-                    key={category.sno}
-                    image={category.imageLink}
-                    slug={category.slug}
-                    title={category.CatName}
-                    isLoading={isLoading}
-                  />
+                  <div className="w-[250px]" key={category.sno}>
+                    <ProjectCard
+                      key={category.sno}
+                      image={category.imageLink}
+                      slug={category.slug}
+                      title={category.CatName}
+                      isLoading={isLoading}
+                    />
+                  </div>
                 ))}
               </div>
               <ScrollBar orientation="horizontal" />
