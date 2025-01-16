@@ -46,7 +46,7 @@ export default function HomeContent() {
             <HomeSlider />
           </div>
 
-          <div className="container  lg:my-16 lg:mx-auto">
+          <div className="container lg:my-16 mx-auto">
             <TextAnimation text="Project Categories" />
             <div className="max-sm:hidden">
               <AnimatedGrid>

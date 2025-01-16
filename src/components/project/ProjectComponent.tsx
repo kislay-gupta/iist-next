@@ -20,7 +20,7 @@ const ProjectComponent = () => {
   }
 
   return (
-    <div className="container lg:my-16 ">
+    <div className="lg:container w-full  lg:my-16 mx-auto">
       <AnimatedGrid>
         {categories?.data?.map((category: Category) => (
           <ProjectCard

@@ -11,7 +11,7 @@ interface AnimatedGridProps {
 const AnimatedGrid = ({
   children,
   className = "",
-  gridClassName = "grid gap-6  m-4 lg:mx-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+  gridClassName = "grid gap-6 grid-cols-1  lg:m-4 lg:mx-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
   isLoading = false,
 }: AnimatedGridProps) => {
   if (isLoading) return null;
