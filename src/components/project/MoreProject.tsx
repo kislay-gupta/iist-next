@@ -23,7 +23,7 @@ export async function MoreProject({
     <ScrollArea className="w-full lg:whitespace-nowrap rounded-md border">
       <div className="flex w-full sm:w-max space-x-4 p-4">
         {filteredData.map((item: Project) => (
-          <div key={item.sno}>
+          <div className="lg:w-[250px]" key={item.sno}>
             <ProductCard
               category={category}
               slug={item.slug}

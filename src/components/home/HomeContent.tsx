@@ -66,7 +66,6 @@ export default function HomeContent() {
                 {categories?.data?.map((category: Category) => (
                   <div className="w-[250px]" key={category.sno}>
                     <ProjectCard
-                      key={category.sno}
                       image={category.imageLink}
                       slug={category.slug}
                       title={category.CatName}
