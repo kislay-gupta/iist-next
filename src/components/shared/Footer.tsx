@@ -53,23 +53,18 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="#" className="hover:text-orange-500">
+                <Link href="/about" className="hover:text-orange-500">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-orange-500">
+                <Link href="/blog" className="hover:text-orange-500">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-orange-500">
+                <Link href="/contact" className="hover:text-orange-500">
                   Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-orange-500">
-                  Summer Camp 2024
                 </Link>
               </li>
             </ul>
@@ -194,6 +189,14 @@ export default function Footer() {
               className="text-orange-500"
             >
               Technotricky
+            </Link>
+            <span className="mx-1">with</span>
+            <Link
+              href="https://technotricky.com"
+              target="_blank"
+              className="text-orange-500"
+            >
+              Byte4ge
             </Link>
           </p>
         </div>
