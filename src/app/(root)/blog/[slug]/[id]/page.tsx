@@ -160,14 +160,14 @@ export default async function Page({ params }: PageParams) {
             </div>
 
             {/* Description */}
-            <div className="browser-css">
-              <BgCard>
-                <h2 className="text-2xl font-semibold mb-4 font-['Times_New_Roman']">
-                  Description
-                </h2>
+            <BgCard>
+              <h2 className="text-2xl font-semibold mb-4 font-['Times_New_Roman']">
+                Description
+              </h2>
+              <div className="browser-css">
                 {post.content && parse(post.content)}
-              </BgCard>
-            </div>
+              </div>
+            </BgCard>
           </div>
         </div>
         <div className="mt-8">
