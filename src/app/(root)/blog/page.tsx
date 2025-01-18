@@ -1,24 +1,33 @@
-import React, { Suspense } from 'react'
-import Loader from '@/components/shared/Loader'
-import BlogComponent from '@/components/blog/BlogData'
-
-
+import React, { Suspense } from "react";
+import Loader from "@/components/shared/Loader";
+import BlogComponent from "@/components/blog/BlogData";
+import Link from "next/link";
+import TextAnimation from "@/components/animations/TextAnimation";
 
 export default async function BlogPage() {
-    
-    
-    return (
-        <main className="container mx-auto lg:px-4 py-4 lg:py-12">
-            <h1 className="text-4xl font-bold text-center mb-2 lg:mb-8 text-gray-800">
-                Our Blog
-            </h1>
-            <div className="flex justify-center items-center">
-                <Suspense fallback={<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><Loader /></div>}>
-                    <div className="flex justify-center items-center">
-                        <BlogComponent />
-                    </div>
-                </Suspense>
+  return (
+    <div className="lg:w-11/12 mx-auto px-4 py-8">
+      <nav className=" flex items-center gap-2 text-sm text-gray-600">
+        <Link href="/" className="text-green-600 hover:underline">
+          Home
+        </Link>
+        <span>/</span>
+        <span>Blog</span>
+      </nav>
+      <TextAnimation text="Blog Categories" />
+      <div className="flex justify-center items-center">
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Loader />
             </div>
-        </main>
-    )
+          }
+        >
+          <div className="flex justify-center items-center">
+            <BlogComponent />
+          </div>
+        </Suspense>
+      </div>
+    </div>
+  );
 }
