@@ -43,6 +43,7 @@
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "universal-cookie": "^7.2.2",
+    "vaul": "^1.1.2",
     "zod": "^3.24.1",
     "zustand": "^5.0.2"
   },
@@ -52,9 +53,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
+    "eslint": "^9.18.0",
     "eslint-config-next": "15.1.4",
+    "eslint-plugin-tailwindcss": "^3.18.0",
     "postcss": "^8",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.10",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

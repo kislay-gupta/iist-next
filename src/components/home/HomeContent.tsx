@@ -61,7 +61,7 @@ export default function HomeContent() {
                 ))}
               </AnimatedGrid>
             </div>
-            <ScrollArea className="md:hidden   whitespace-nowrap rounded-md border">
+            <ScrollArea className="md:hidden whitespace-nowrap rounded-md border">
               <div className="flex w-max space-x-4 p-4">
                 {categories?.data?.map((category: Category) => (
                   <div className="w-[250px]" key={category.sno}>
