@@ -16,7 +16,7 @@ export async function generateMetadata({
 }: PageParams): Promise<Metadata> {
     const resolvedParams = await params;
     const project = await getComPonentsBySlug(resolvedParams.slug);
-
+    const product = project.data[0];
     if (!project) {
         return {
             title: "Project Not Found | Sparkovation Hub",
@@ -25,10 +25,10 @@ export async function generateMetadata({
     }
 
     return {
-        title: `${project.name} | Sparkovation Hub`,
-        description: `${project.name} | Sparkovation Hub`,
+        title: `${product.name} | Sparkovation Hub`,
+        description: `${product.name} | Sparkovation Hub`,
         openGraph: {
-            images: [project.imageLink],
+            images: [product.imageLink],
         },
     };
 }
@@ -43,7 +43,7 @@ export default async function Page({
 }: PageParams) {
     const resolvedParams = await (params);
     const data = await getComPonentsBySlug(resolvedParams.slug);
-    console.log(data.data);
+
     const product = data.data[0];
     const { name, imageLink, pdfLink, price, DiscPrice, Description } = product;
     return (

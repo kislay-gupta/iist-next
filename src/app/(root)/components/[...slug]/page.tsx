@@ -42,7 +42,7 @@ export default async function Page({
 }: PageParams) {
   const resolvedParams = await (params);
   const data = await getComPonentsByCategoru(resolvedParams.slug[0]);
-  console.log(data);
+
   return <>
     <div className="lg:w-11/12 mx-auto px-4 py-8">
       <nav className="mb-8 flex items-center gap-2 text-sm text-gray-600">
