@@ -8,6 +8,7 @@ import useLoader from "@/hooks/use-loader";
 type MenuItem = {
   id: string;
   name: string;
+  slug: string;
   parent_id: string | null;
   children?: MenuItem[];
 };
@@ -40,7 +41,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, depth = 0 }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       {hasChildren ? (
-        <div className={`flex items-center justify-between px-3 py-2 hover:bg-indigo-50 ${depth > 0 ? "pl-6" : ""
+        <div className={`flex items-center  justify-between px-3 py-2 hover:bg-indigo-50 ${depth > 0 ? "pl-6" : ""
           }`}>
           <span className="text-slate-700 group-hover/item:text-indigo-700 text-sm font-bold">
             {item.name}
@@ -49,7 +50,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, depth = 0 }) => {
         </div>
       ) : (
         <Link
-          href={`/components/${item.name}/${item.id}`}
+          href={`/components/${item.slug}`}
           className={`flex items-center justify-between px-3 py-2 hover:bg-indigo-50 ${depth > 0 ? "pl-6" : ""
             }`}
         >
@@ -61,7 +62,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, depth = 0 }) => {
       {hasChildren && (
         <div
           className={`
-            absolute left-full top-0 
+            absolute left-full  top-0 
             bg-white w-64 shadow-xl 
             ${isHovered ? "opacity-100 visible" : "opacity-0 invisible"}
             transition-all duration-200 

@@ -1,4 +1,5 @@
 import { ProjectCard } from "./ProjectCard";
 import { ProductCard } from "./ProductCard";
 import BgCard from "./BgCard";
-export { ProjectCard, ProductCard, BgCard };
+import { ComponentsCard } from "./ComponentsCard";
+export { ProjectCard, ProductCard, BgCard, ComponentsCard };

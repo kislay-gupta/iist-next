@@ -34,7 +34,7 @@ export function ProductCard({
           <div className="relative  overflow-hidden w-full h-auto bg-gray-100">
             <Image
               src={image}
-              alt={title}
+              alt={title || "Product Image"}
               width={500}
               height={500}
               className="object-cover transition-transform duration-300 group-hover:scale-105"
