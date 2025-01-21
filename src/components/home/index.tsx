@@ -1,3 +1,3 @@
 import Sidebar from "./Sidebar";
-
-export { Sidebar };
+import AboutIist from "./AboutIist";
+export { Sidebar, AboutIist };

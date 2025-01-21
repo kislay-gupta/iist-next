@@ -1,6 +1,5 @@
-// .prettierrc
 {
-  "plugins": ["prettier-plugin-tailwindcss"]
-    "tailwindPreserveWhitespace": true,
+  "plugins": ["prettier-plugin-tailwindcss"],
+    "tailwindPreserveWhitespace": true 
 
 }

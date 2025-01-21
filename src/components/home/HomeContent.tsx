@@ -1,10 +1,10 @@
 "use client";
 import { useCategory } from "@/hooks/useCategory";
 import HomeSlider from "@/components/sliders/HomeSlider";
-import { Sidebar } from "@/components/home";
+import { AboutIist, Sidebar } from "@/components/home";
 import TextAnimation from "@/components/animations/TextAnimation";
 import AnimatedGrid from "../animations/AnimatedGrid";
-import { ProjectCard } from "../cards";
+import { BgCard, ProjectCard } from "../cards";
 import SkeletonHome from "../skeletons/SkeletonHomes";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import CustomMarquee from "./CustomMarquee";
@@ -46,7 +46,7 @@ export default function HomeContent() {
             <HomeSlider />
           </div>
 
-          <div className="container lg:my-16 mx-auto">
+          <div className="container mx-auto lg:my-16">
             <TextAnimation text="Project Categories" />
             <div className="max-sm:hidden">
               <AnimatedGrid>
@@ -61,7 +61,7 @@ export default function HomeContent() {
                 ))}
               </AnimatedGrid>
             </div>
-            <ScrollArea className="md:hidden whitespace-nowrap rounded-md border">
+            <ScrollArea className="whitespace-nowrap rounded-md border md:hidden">
               <div className="flex w-max space-x-4 p-4">
                 {categories?.data?.map((category: Category) => (
                   <div className="w-[250px]" key={category.sno}>
@@ -76,7 +76,9 @@ export default function HomeContent() {
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
-
+            <BgCard>
+              <AboutIist />
+            </BgCard>
             <div className="hidden md:block">
               <TextAnimation text="Latest Blog" />
               <div className="container mx-auto ">
