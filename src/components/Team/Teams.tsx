@@ -2,6 +2,7 @@
 
 import { TeamMember } from "@/components/cards/TeamCard";
 import { motion } from "framer-motion";
+import { useRouter } from 'next/navigation'
 
 const teamMembers = [
   {
@@ -11,7 +12,7 @@ const teamMembers = [
     designation: "Junior Scientist",
     role: "Team Lead",
     bio: "Anand leads our team with his expertise in scientific research and project management. His innovative approach drives our projects forward.",
-    
+
     socialLinks: {
       linkedin: "https://www.linkedin.com/in/anandvijay/",
       twitter: "https://twitter.com/anandvijay",
@@ -25,7 +26,7 @@ const teamMembers = [
     designation: "Junior Scientist",
     role: "Team Lead",
     bio: "Anand leads our team with his expertise in scientific research and project management. His innovative approach drives our projects forward.",
-    
+
     socialLinks: {
       linkedin: "https://www.linkedin.com/in/anandvijay/",
       twitter: "https://twitter.com/anandvijay",
@@ -33,20 +34,20 @@ const teamMembers = [
     }
   },
   {
-    banner:"https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b625a66ea14.22850473.jpg",
+    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b625a66ea14.22850473.jpg",
     imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b625a66ea14.22850473.jpg",
     name: "Krishna Kumar",
     designation: "Backend Developer",
     role: "IOT Expert",
     bio: "Krishna specializes in backend development and IoT solutions. His technical expertise ensures our systems run smoothly and efficiently.",
-   
+
     socialLinks: {
       linkedin: "https://www.linkedin.com/in/pushpraj/",
       github: "https://github.com/pushpraj"
     }
   },
   {
-    banner:"https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b625a66ea14.22850473.jpg",
+    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b625a66ea14.22850473.jpg",
     imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b625a66ea14.22850473.jpg",
     name: "Pushp raj",
     designation: "Backend Developer",
@@ -59,7 +60,7 @@ const teamMembers = [
     }
   },
   {
-    banner:"https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6edf3444f7.74385563.jpg",
+    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6edf3444f7.74385563.jpg",
     imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b69cc53e321.80828341.jpg",
     name: "Kislay Gupta",
     designation: "Front-end Developer",
@@ -73,7 +74,7 @@ const teamMembers = [
     }
   },
   {
-    banner:"https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6edf3444f7.74385563.jpg",
+    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6edf3444f7.74385563.jpg",
     imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b69cc53e321.80828341.jpg",
     name: "Kislay Gupta",
     designation: "Front-end Developer",
@@ -87,7 +88,7 @@ const teamMembers = [
     }
   },
   {
-    banner:"https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6edf3444f7.74385563.jpg",
+    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6edf3444f7.74385563.jpg",
     imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b69cc53e321.80828341.jpg",
     name: "Kislay Gupta",
     designation: "Front-end Developer",
@@ -103,8 +104,9 @@ const teamMembers = [
 ];
 
 const Teams = () => {
+  const router = useRouter()
   return (
-    <section className="py-24 bg-gradient-to-b from-background to-background/80">
+    <section className="py-24 bg-gradient-to-b from-background to-background/80 cursor-pointer" onClick={() => router.push("/team/anand")}>
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}

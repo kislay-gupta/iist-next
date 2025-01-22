@@ -32,6 +32,10 @@ export const menuLink: MenuLink[] = [
     label: "Team",
   },
   {
+    route: "/tutorials",
+    label: "Tutorials",
+  },
+  {
     route: "/contact",
     label: "Contact",
   },

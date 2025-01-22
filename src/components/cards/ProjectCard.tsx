@@ -34,7 +34,7 @@ export function ProjectCard({
 
   return (
     <Card className="group  w-full overflow-hidden transition-all hover:shadow-lg">
-      <Link  href={`/${category}/${slug}`}>
+      <Link href={`/${category}/${slug}`}>
         <div className="relative aspect-video w-full overflow-hidden rounded-t-lg bg-gray-100">
           <Image
             width={500}
