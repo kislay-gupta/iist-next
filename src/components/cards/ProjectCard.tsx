@@ -39,7 +39,7 @@ export function ProjectCard({
           <Image
             width={500}
             height={500}
-            src={image || ""}
+            src={`${process.env.NEXT_PUBLIC_FILE_URL}/${image}` || ""}
             alt=""
             className="h-full w-full object-contain"
           />
