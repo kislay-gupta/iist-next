@@ -87,7 +87,8 @@ export default async function ProjectPage({ params }: PageParams) {
           </h1>
           <div className="relative group w-full">
             <Image
-              src={imageLink}
+              src={`${process.env.NEXT_PUBLIC_FILE_URL}/${imageLink}`}
+
               alt={name}
               width={800}
               height={600}
@@ -114,7 +115,7 @@ export default async function ProjectPage({ params }: PageParams) {
                 className="w-full h-12 border-blue-200 hover:bg-blue-50"
                 asChild
               >
-                <Link href={pdfLink} target="_blank">
+                <Link href={`${process.env.NEXT_PUBLIC_FILE_URL}/${pdfLink}`} target="_blank">
                   <Download className="mr-2 h-5 w-5" />
                   Download PDF
                 </Link>
@@ -206,12 +207,12 @@ export default async function ProjectPage({ params }: PageParams) {
       <div className="mt-8">
         <div className="flex justify-between">
 
-        <h2 className="text-2xl font-semibold mb-4 font-['Times_New_Roman']">
-          Similar Projects
-        </h2>
-        <Button>
-          <Link href={`/projects/${resolvedParams.slug}`}>View All</Link>
-        </Button>
+          <h2 className="text-2xl font-semibold mb-4 font-['Times_New_Roman']">
+            Similar Projects
+          </h2>
+          <Button>
+            <Link href={`/projects/${resolvedParams.slug}`}>View All</Link>
+          </Button>
         </div>
         <div className="w-full">
           {/* Similar project cards */}

@@ -34,7 +34,7 @@ export function ComponentsCard({
                 <CardContent className="p-0">
                     <div className="relative  overflow-hidden w-full h-auto bg-gray-100">
                         <Image
-                            src={image}
+                            src={`${process.env.NEXT_PUBLIC_FILE_URL}/${image}`}
                             alt={title}
                             width={500}
                             height={500}

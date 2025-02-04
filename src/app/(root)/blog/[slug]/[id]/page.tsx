@@ -102,7 +102,7 @@ export default async function Page({ params }: PageParams) {
             </h1>
             <div className="relative group w-full">
               <Image
-                src={post.ogImage}
+                src={`${process.env.NEXT_PUBLIC_FILE_URL}/${post.ogImage}`}
                 alt={post.title}
                 width={800}
                 height={600}
