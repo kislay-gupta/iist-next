@@ -23,7 +23,7 @@ export default function BlogCard({
         <CardContent className="p-0">
           <div className="relative overflow-hidden w-full h-[200px] bg-gray-100">
             <Image
-              src={`${process.env.NEXT_PUBLIC_FILE_URL}/${image}`}
+              src={image}
               alt={title}
               width={500}
               height={500}

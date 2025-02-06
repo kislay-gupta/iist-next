@@ -87,7 +87,7 @@ export default async function ProjectPage({ params }: PageParams) {
           </h1>
           <div className="relative group w-full">
             <Image
-              src={`${process.env.NEXT_PUBLIC_FILE_URL}/${imageLink}`}
+              src={imageLink}
 
               alt={name}
               width={800}
@@ -115,7 +115,7 @@ export default async function ProjectPage({ params }: PageParams) {
                 className="w-full h-12 border-blue-200 hover:bg-blue-50"
                 asChild
               >
-                <Link href={`${process.env.NEXT_PUBLIC_FILE_URL}/${pdfLink}`} target="_blank">
+                <Link href={pdfLink} target="_blank">
                   <Download className="mr-2 h-5 w-5" />
                   Download PDF
                 </Link>

@@ -33,7 +33,7 @@ export function ProductCard({
         <CardContent className="p-0">
           <div className="relative  overflow-hidden w-full h-auto bg-gray-100">
             <Image
-              src={`${process.env.NEXT_PUBLIC_FILE_URL}/${image}`}
+              src={image}
               alt={title || "Product Image"}
               width={500}
               height={500}
