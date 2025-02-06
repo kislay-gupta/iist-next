@@ -20,6 +20,7 @@ type MenuItem = {
   name: string;
   parent_id: string | null;
   children?: MenuItem[];
+  slug: string
 };
 
 type MenuItemProps = {
@@ -59,17 +60,15 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, depth = 0, onClose }) => {
         <div>
           <button
             onClick={handleClick}
-            className={`w-full flex items-center justify-between px-3 py-2 hover:bg-indigo-50 ${
-              depth > 0 ? "pl-6" : ""
-            }`}
+            className={`w-full flex items-center justify-between px-3 py-2 hover:bg-indigo-50 ${depth > 0 ? "pl-6" : ""
+              }`}
           >
             <span className="text-slate-700 hover:text-indigo-700 text-sm font-bold">
               {item.name}
             </span>
             <ChevronRight
-              className={`h-3.5 w-3.5 text-slate-400 transition-transform ${
-                isExpanded ? "rotate-90" : ""
-              }`}
+              className={`h-3.5 w-3.5 text-slate-400 transition-transform ${isExpanded ? "rotate-90" : ""
+                }`}
             />
           </button>
           {isExpanded && (
@@ -87,15 +86,13 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, depth = 0, onClose }) => {
         </div>
       ) : (
         <Link
-          href={`/components/${item.name}/${item.id}`}
-          className={`block px-3 py-2 hover:bg-indigo-50 ${
-            depth > 0 ? "pl-6" : ""
-          } ${pathname === `/components/${item.name}/${item.id}` ? "bg-indigo-50 text-indigo-700" : ""}`}
+          href={`/components/${item.slug}`}
+          className={`block px-3 py-2 hover:bg-indigo-50 ${depth > 0 ? "pl-6" : ""
+            } ${pathname === `/components/${item.slug}` ? "bg-indigo-50 text-indigo-700" : ""}`}
           onClick={() => onClose?.()}
         >
-          <span className={`text-sm font-bold ${
-            pathname === `/components/${item.name}/${item.id}` ? "text-indigo-700" : "text-slate-700"
-          } hover:text-indigo-700`}>
+          <span className={`text-sm font-bold ${pathname === `/components/${item.slug}` ? "text-indigo-700" : "text-slate-700"
+            } hover:text-indigo-700`}>
             {item.name}
           </span>
         </Link>
