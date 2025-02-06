@@ -11,7 +11,7 @@ const ComponentLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
 
       <section className="  w-max overflow-y-hidden overflow-x-hidden bg-gray-100">
-        <div className="custom-scrollbar     text-black">{children}</div>
+        <div className="custom-scrollbar   w-screen  text-black">{children}</div>
       </section>
     </div>
   );

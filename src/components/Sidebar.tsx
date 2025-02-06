@@ -41,9 +41,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, depth = 0 }) => {
     >
       {hasChildren ? (
         <div
-          className={`flex items-center justify-between px-3 py-2 hover:bg-indigo-50 ${
-            depth > 0 ? "pl-6" : ""
-          }`}
+          className={`flex items-center justify-between px-3 py-2 hover:bg-indigo-50 ${depth > 0 ? "pl-6" : ""
+            }`}
         >
           <span className="text-sm font-bold text-slate-700 group-hover/item:text-indigo-700">
             {item.name}
@@ -53,9 +52,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, depth = 0 }) => {
       ) : (
         <Link
           href={`/components/${item.slug}`}
-          className={`flex items-center justify-between px-3 py-2 hover:bg-indigo-50 ${
-            depth > 0 ? "pl-6" : ""
-          }`}
+          className={`flex items-center justify-between px-3 py-2 hover:bg-indigo-50 ${depth > 0 ? "pl-6" : ""
+            }`}
         >
           <span className="text-sm font-bold text-slate-700 group-hover/item:text-indigo-700">
             {item.name}
@@ -110,7 +108,7 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <aside className="w-64 border-r border-gray-200 bg-white max-sm:hidden">
+    <aside className="w-64 border-r border-gray-200  bg-white max-sm:hidden">
       <div className="sticky top-0 z-10 bg-white">
         <div className="border-b border-gray-200 bg-[#1e2756] px-3 py-2">
           <Link
