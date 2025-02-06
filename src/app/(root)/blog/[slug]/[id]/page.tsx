@@ -18,8 +18,7 @@ type PageParams = {
 async function getBlogPost(slug: string) {
   try {
     const res = await fetch(
-      `https://api.iistbihar.com/api/v1/blogData?req_data=getBlogBySlug&BlogSlug=${slug}`,
-      {}
+      `https://api.iistbihar.com/api/v1/blogData?req_data=getBlogBySlug&BlogSlug=${slug}`
     );
 
     if (!res.ok) {

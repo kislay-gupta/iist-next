@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import { Breadcrumb } from "@/components/shared/Breadcrumb";
 import conf from "@/config/config";
 import EmptySearch from "@/components/shared/EmptySearch";
-import axios from "axios";
 
 interface Project {
   sno: number;
@@ -38,12 +37,30 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
 
 async function getProducts(category: string) {
   try {
-    const response = await axios.get(
+    const response = await fetch(
       `${conf.baseUrl}projectData?req_data=getProjectByCatSlug&CatSlug=${category}`
     );
-    return response.data.data;
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data;
   } catch (error) {
-    console.error("Error fetching products:", error);
+    if (error instanceof Error) {
+      console.error("Error fetching products:", {
+        error,
+        message: error.message,
+        stack: error.stack,
+        category,
+        url: `${conf.baseUrl}projectData?req_data=getProjectByCatSlug&CatSlug=${category}`
+      });
+    } else {
+      console.error("Unknown error fetching products:", {
+        error,
+        category,
+        url: `${conf.baseUrl}projectData?req_data=getProjectByCatSlug&CatSlug=${category}`
+      });
+    }
     return [];
   }
 }
@@ -55,7 +72,7 @@ export default async function Page({ params }: PageParams) {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <Breadcrumb category={slug}  />
+        <Breadcrumb category={slug} />
         <div className="mb-8 space-y-4 md:space-y-6">
           <h1 className="text-3xl font-bold capitalize tracking-tight text-gray-900 sm:text-4xl">
             {slug}
