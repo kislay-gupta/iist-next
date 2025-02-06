@@ -17,7 +17,7 @@ export const useCategory = () => {
     try {
       startLoading();
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/category?req_data=getCat`
+        `${process.env.NEXT_PUBLIC_BASE_URL}category?req_data=getCat`
       );
 
       setCategories(response.data.data);

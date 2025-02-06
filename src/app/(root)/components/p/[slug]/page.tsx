@@ -33,7 +33,7 @@ export async function generateMetadata({
     };
 }
 const getComPonentsBySlug = async (slug: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/componentData?req_data=getComponentByslug&CompSlug=${slug}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}componentData?req_data=getComponentByslug&CompSlug=${slug}`);
     const data = await res.json();
     return data;
 }

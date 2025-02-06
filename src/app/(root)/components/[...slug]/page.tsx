@@ -32,7 +32,7 @@ interface ProductCardProps {
 
 
 const getComPonentsByCategoru = async (slug: string) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/componentData?req_data=CompByCatSlugOrID&CompCatSlug=${slug}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}componentData?req_data=CompByCatSlugOrID&CompCatSlug=${slug}`);
   const data = await res.json();
   return data;
 }

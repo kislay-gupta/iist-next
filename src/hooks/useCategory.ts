@@ -16,7 +16,7 @@ interface CategoryResponse {
 
 const fetchCategories = async (): Promise<CategoryResponse> => {
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/category?req_data=getCat`
+    `${process.env.NEXT_PUBLIC_BASE_URL}category?req_data=getCat`
   );
   // Adjust the API endpoint as needed
   return response.data;

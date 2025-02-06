@@ -13,7 +13,7 @@ import conf from "@/config/config";
 async function getTutorials() {
     try {
         const res = await fetch(
-            `${conf.baseUrl}/tutorial?req_data=getTutCat`,
+            `${conf.baseUrl}tutorial?req_data=getTutCat`,
             {
                 next: { revalidate: 60 }, // Revalidate cache every 60 seconds
             }
