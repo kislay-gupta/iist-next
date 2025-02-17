@@ -1,140 +1,106 @@
 "use client";
 
 import { TeamMember } from "@/components/cards/TeamCard";
+import useLoader from "@/hooks/use-loader";
+import axios from "axios";
 import { motion } from "framer-motion";
-import { useRouter } from 'next/navigation'
-
-const teamMembers = [
-  {
-    imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6e19af3075.19873218.png",
-    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6e19af3075.19873218.png",
-    name: "Anand Vijay",
-    designation: "Junior Scientist",
-    role: "Team Lead",
-    bio: "Anand leads our team with his expertise in scientific research and project management. His innovative approach drives our projects forward.",
-
-    socialLinks: {
-      linkedin: "https://www.linkedin.com/in/anandvijay/",
-      twitter: "https://twitter.com/anandvijay",
-      github: "https://github.com/anandvijay"
-    }
-  },
-  {
-    imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6e19af3075.19873218.png",
-    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6e19af3075.19873218.png",
-    name: "Pro. Anil Kumar",
-    designation: "Junior Scientist",
-    role: "Team Lead",
-    bio: "Anand leads our team with his expertise in scientific research and project management. His innovative approach drives our projects forward.",
-
-    socialLinks: {
-      linkedin: "https://www.linkedin.com/in/anandvijay/",
-      twitter: "https://twitter.com/anandvijay",
-      github: "https://github.com/anandvijay"
-    }
-  },
-  {
-    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b625a66ea14.22850473.jpg",
-    imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b625a66ea14.22850473.jpg",
-    name: "Krishna Kumar",
-    designation: "Backend Developer",
-    role: "IOT Expert",
-    bio: "Krishna specializes in backend development and IoT solutions. His technical expertise ensures our systems run smoothly and efficiently.",
-
-    socialLinks: {
-      linkedin: "https://www.linkedin.com/in/pushpraj/",
-      github: "https://github.com/pushpraj"
-    }
-  },
-  {
-    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b625a66ea14.22850473.jpg",
-    imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b625a66ea14.22850473.jpg",
-    name: "Pushp raj",
-    designation: "Backend Developer",
-    role: "IOT Expert",
-    bio: "Pushp raj specializes in backend development and IoT solutions. His technical expertise ensures our systems run smoothly and efficiently.",
-    skills: ["Backend Development", "IoT", "Database Management"],
-    socialLinks: {
-      linkedin: "https://www.linkedin.com/in/pushpraj/",
-      github: "https://github.com/pushpraj"
-    }
-  },
-  {
-    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6edf3444f7.74385563.jpg",
-    imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b69cc53e321.80828341.jpg",
-    name: "Kislay Gupta",
-    designation: "Front-end Developer",
-    role: "Mobile Developer",
-    bio: "Kislay brings our designs to life with his front-end and mobile development skills. He ensures our applications are user-friendly and visually appealing.",
-    skills: ["Front-end Development", "Mobile Development", "Prompt Engineering"],
-    socialLinks: {
-      linkedin: "https://www.linkedin.com/in/kislaygupta/",
-      twitter: "https://twitter.com/kissslayyy",
-      github: "https://github.com/kislaygupta"
-    }
-  },
-  {
-    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6edf3444f7.74385563.jpg",
-    imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b69cc53e321.80828341.jpg",
-    name: "Kislay Gupta",
-    designation: "Front-end Developer",
-    role: "Mobile Developer",
-    bio: "Kislay brings our designs to life with his front-end and mobile development skills. He ensures our applications are user-friendly and visually appealing.",
-    skills: ["Front-end Development", "Mobile Development", "Prompt Engineering"],
-    socialLinks: {
-      linkedin: "https://www.linkedin.com/in/kislaygupta/",
-      twitter: "https://twitter.com/kissslayyy",
-      github: "https://github.com/kislaygupta"
-    }
-  },
-  {
-    banner: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b6edf3444f7.74385563.jpg",
-    imageUrl: "https://api.iistbihar.com/api/uploads/HostedImages/Proj_678b69cc53e321.80828341.jpg",
-    name: "Kislay Gupta",
-    designation: "Front-end Developer",
-    role: "Mobile Developer",
-    bio: "Kislay brings our designs to life with his front-end and mobile development skills. He ensures our applications are user-friendly and visually appealing.",
-    skills: ["Front-end Development", "Mobile Development", "Prompt Engineering"],
-    socialLinks: {
-      linkedin: "https://www.linkedin.com/in/kislaygupta/",
-      twitter: "https://twitter.com/kissslayyy",
-      github: "https://github.com/kislaygupta"
-    }
-  },
-];
+import { useEffect, useState } from "react";
+import TeamMemberSkeleton from "./TeamMemberSkeleton";
+interface TeamMemberProps {
+  sno: number;
+  imageLink: string;
+  coverImageLink?: string;
+  name: string;
+  designation: string;
+  slug: string;
+  subDesignation: string;
+  linkedin?: string;
+  twitter?: string;
+  facebook?: string;
+  insta?: string;
+  youtube?: string;
+}
 
 const Teams = () => {
-  const router = useRouter()
+  const { isLoading, startLoading, stopLoading } = useLoader();
+  const [teamMembers, setTeamMember] = useState<TeamMemberProps[] | null>(null);
+
+  const getTeamMemberData = async () => {
+    startLoading();
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}teams?req_data=getTeamMembers`,
+      );
+      setTeamMember(response.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      stopLoading();
+    }
+  };
+  console.log(teamMembers);
+
+  useEffect(() => {
+    getTeamMemberData();
+  }, []);
+  if (isLoading) {
+    return (
+      <>
+        {[1, 2, 3, 4, 5, 6].map((index) => (
+          <TeamMemberSkeleton key={index} />
+        ))}
+      </>
+    );
+  }
   return (
-    <section className="py-24 bg-gradient-to-b from-background to-background/80 cursor-pointer" onClick={() => router.push("/team/anand")}>
+    <section className="from-background to-background/80 cursor-pointer bg-gradient-to-b py-24">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="mb-16 text-center"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="mb-4 text-4xl font-bold md:text-5xl">
             Meet Our <span className="text-primary">Team</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Our diverse team of experts brings innovation and excellence to every project.
+          <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Our diverse team of experts brings innovation and excellence to
+            every project.
           </p>
         </motion.div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {teamMembers.slice(0, 3).map((member, index) => (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {teamMembers &&
+            teamMembers.map((member: TeamMemberProps) => (
+              <TeamMember
+                key={member.sno}
+                imageLink={member.imageLink}
+                slug={member.slug}
+                coverImageLink={member.coverImageLink}
+                name={member.name}
+                designation={member.designation}
+                subDesignation={member.subDesignation}
+                linkedin={member.linkedin}
+                twitter={member.twitter}
+                facebook={member.facebook}
+                instagram={member.insta}
+                youtube={member.youtube}
+              />
+            ))}
+        </div>
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {teamMembers && teamMembers.slice(0, 3).map((member: TeamMemberProps, index: number) => (
             <TeamMember key={index} {...member} />
           ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 my-4 lg:grid-cols-4 gap-6">
-          {teamMembers.slice(3).map((member, index) => (
+          {teamMembers && teamMembers.slice(3).map((member: TeamMemberProps, index: number) => (
             <TeamMember key={index} {...member} />
           ))}
-        </div>
+        </div> */}
       </div>
     </section>
   );
 };
 
 export default Teams;
-

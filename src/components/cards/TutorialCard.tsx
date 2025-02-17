@@ -7,7 +7,7 @@ interface TutorialsCardProps {
     image?: string;
     slug?: string;
     isLoading?: boolean;
-    category?: "projects" | "blog";
+    category?: "tutorials" | "blog";
 }
 
 export function TutorialsCard({
@@ -15,7 +15,7 @@ export function TutorialsCard({
     image,
     slug,
     isLoading = true,
-    category = "projects",
+    category = "tutorials",
 }: TutorialsCardProps) {
     if (isLoading) {
         return (

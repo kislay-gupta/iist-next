@@ -1,4 +1,4 @@
-import { ContactForm } from "@/components/forms/ContactForm";
+import { ContactForm } from "@/components/Forms/ContactForm";
 import Link from "next/link";
 
 const ContactUsPage = () => {
