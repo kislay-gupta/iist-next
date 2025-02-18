@@ -1,5 +1,8 @@
 import React from 'react'
 import { notFound } from 'next/navigation'
+import parse from 'html-react-parser'
+import { BgCard } from '@/components/cards'
+import VideoPreview from '@/components/shared/VideoPreview'
 
 // Types for the API response
 interface ChapterData {
@@ -22,6 +25,7 @@ interface ApiResponse {
 
 type PageParams = {
     params: Promise<{
+
         slug: string
         chapter: string[]
     }>
@@ -95,53 +99,57 @@ export default async function Page({ params }: PageParams) {
         }
 
         return (
-            <article className="max-w-4xl mx-auto px-4 py-8">
-                <h1 className="text-3xl font-bold mb-6">{chapterData.data.title}</h1>
+            <BgCard>
 
-                {/* Author and date information */}
-                <div className="text-gray-600 mb-8">
-                    <span>By {chapterData.data.author}</span>
-                    <span className="mx-2">•</span>
-                    <time dateTime={chapterData.data.created}>
-                        {new Date(chapterData.data.created).toLocaleDateString()}
-                    </time>
-                </div>
+                <article className="max-w-4xl mx-auto px-4 py-8">
 
-                {/* Main content */}
-                <div
-                    className="prose max-w-none"
-                    dangerouslySetInnerHTML={{ __html: chapterData.data.content }}
-                />
+                    <h1 className="text-3xl font-bold mb-6">
 
-                {/* PDF viewer */}
-                {chapterData.data.pdf && (
-                    <div className="mt-8">
-                        <h2 className="text-xl font-semibold mb-4">PDF Resources</h2>
-                        <embed
-                            src={chapterData.data.pdf}
-                            type="application/pdf"
-                            width="100%"
-                            height="600px"
-                            className="border rounded-lg"
-                        />
+                        {chapterData.data.title}</h1>
+
+                    {/* Author and date information */}
+                    <div className="text-gray-600 mb-8">
+                        <span>By {chapterData.data.author}</span>
+                        <span className="mx-2">•</span>
+                        <time dateTime={chapterData.data.created}>
+                            {new Date(chapterData.data.created).toLocaleDateString()}
+                        </time>
                     </div>
-                )}
 
-                {/* Video content */}
-                {chapterData.data.Videolink && (
-                    <div className="mt-8">
-                        <h2 className="text-xl font-semibold mb-4">Video Tutorial</h2>
-                        <div className="aspect-w-16 aspect-h-9">
-                            <iframe
-                                src={chapterData.data.Videolink}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                className="w-full h-full rounded-lg"
+                    {chapterData.data.content && (
+                        <div
+                            className="browser-css"
+
+                        >
+                            {parse(chapterData.data.content)}
+                        </div>
+                    )}
+
+                    {/* PDF viewer */}
+                    {chapterData.data.pdf && (
+                        <div className="mt-8">
+                            <h2 className="text-xl font-semibold mb-4">PDF Resources</h2>
+                            <embed
+                                src={chapterData.data.pdf}
+                                type="application/pdf"
+                                width="100%"
+                                height="600px"
+                                className="border rounded-lg"
                             />
                         </div>
-                    </div>
-                )}
-            </article>
+                    )}
+
+                    {/* Video content */}
+                    {chapterData.data.Videolink && (
+                        <div className="mt-8">
+
+                            <div className="aspect-video">
+                                <VideoPreview url={chapterData.data.Videolink} />
+                            </div>
+                        </div>
+                    )}
+                </article>
+            </BgCard>
         )
     } catch (error) {
         console.error('Error in Page component:', error)

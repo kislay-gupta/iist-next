@@ -1,4 +1,3 @@
-
 type PageParams = {
   params: Promise<{ slug: string }>;
 }
@@ -52,17 +51,40 @@ export default async function Page({ params }: PageParams) {
 
   return (
     <main className="container px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Tutorials for {slug}</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800">{slug.charAt(0).toUpperCase() + slug.slice(1)} Tutorials</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tutorials.map((tutorial) => (
-          <div key={tutorial.slug} className="border rounded-lg p-4 shadow-sm">
-            <h2 className="text-xl font-semibold mb-2">{tutorial.title}</h2>
-            <p className="text-gray-500 text-sm mb-2">By {tutorial.author}</p>
-            <p className="text-gray-600 mb-4">
-              {tutorial.chapters.length} {tutorial.chapters.length === 1 ? 'chapter' : 'chapters'}
-            </p>
-            <div className="text-sm text-gray-500">
-              Created: {new Date(tutorial.created).toLocaleDateString()}
+          <div
+            key={tutorial.slug}
+            className="group border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 bg-white"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <h2 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+                {tutorial.title}
+              </h2>
+              <span className="inline-flex items-center justify-center bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full">
+                {tutorial.chapters.length} {tutorial.chapters.length === 1 ? 'chapter' : 'chapters'}
+              </span>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center text-gray-600">
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <p className="text-sm">{tutorial.author}</p>
+              </div>
+              <div className="flex items-center text-gray-500">
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <time className="text-sm">
+                  {new Date(tutorial.created).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  })}
+                </time>
+              </div>
             </div>
           </div>
         ))}

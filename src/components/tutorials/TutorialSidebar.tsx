@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type TutorialSidebarProps = {
   tutorials: Tutorial[];
@@ -47,27 +48,38 @@ export default function TutorialSidebar({ tutorials, category }: TutorialSidebar
               className="flex items-center justify-between w-full text-left p-2 hover:bg-gray-100 rounded"
             >
               <span className="font-medium">{tutorial.title}</span>
-              {expandedTutorials.includes(tutorial.sno)
-                ? <ChevronDown className="w-4 h-4" />
-                : <ChevronRight className="w-4 h-4" />
-              }
+              <motion.div
+                initial={false}
+                animate={{ rotate: expandedTutorials.includes(tutorial.sno) ? 90 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChevronRight className="w-4 h-4" />
+              </motion.div>
             </button>
-            {expandedTutorials.includes(tutorial.sno) && (
-              <div className="ml-4 mt-2 space-y-1">
-                {tutorial.chapters.map((chapter) => (
-                  <Link
-                    key={chapter.slug}
-                    href={`/tutorials/${category}/${tutorial.slug}/${chapter.slug}`}
-                    className="block p-2 text-sm hover:bg-gray-100 rounded"
-                  >
-                    {chapter.title}
-                    {chapter.content && <span className="ml-2 text-blue-500">📝</span>}
-                    {chapter.pdf && <span className="ml-2 text-red-500">📄</span>}
-                    {chapter.Videolink && <span className="ml-2 text-green-500">🎥</span>}
-                  </Link>
-                ))}
-              </div>
-            )}
+            <AnimatePresence>
+              {expandedTutorials.includes(tutorial.sno) && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="ml-4 mt-2 space-y-1 overflow-hidden"
+                >
+                  {tutorial.chapters.map((chapter) => (
+                    <Link
+                      key={chapter.slug}
+                      href={`/tutorials/${category}/${tutorial.slug}/${chapter.slug}`}
+                      className="block p-2 text-sm hover:bg-gray-100 rounded"
+                    >
+                      {chapter.title}
+                      {chapter.content && <span className="ml-2 text-blue-500">📝</span>}
+                      {chapter.pdf && <span className="ml-2 text-red-500">📄</span>}
+                      {chapter.Videolink && <span className="ml-2 text-green-500">🎥</span>}
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         ))}
       </div>
