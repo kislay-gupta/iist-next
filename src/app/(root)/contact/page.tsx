@@ -1,4 +1,4 @@
-// import { ContactForm } from "@/components/Forms/ContactForm";
+import ContactForm from "@/components/Forms/ContactForm";
 import Link from "next/link";
 
 const ContactUsPage = () => {
@@ -13,7 +13,7 @@ const ContactUsPage = () => {
           <h2 className="text-3xl font-bold mb-8 text-gray-800">
             Send us a message
           </h2>
-
+          <ContactForm />
         </div>
 
         {/* Contact Details and Map Section */}

@@ -48,13 +48,7 @@ async function fetchChapterData(slug: string): Promise<ApiResponse | null> {
 
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BASE_URL}tutorial?req_data=getChapterBySlug&Slug=${slug}`,
-                {
-                    signal: controller.signal,
-                    headers: {
-                        'Cache-Control': 'no-cache',
-                        'Pragma': 'no-cache'
-                    }
-                }
+
             )
 
             clearTimeout(timeoutId)
