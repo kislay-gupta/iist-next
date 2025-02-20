@@ -11,6 +11,7 @@ import {
   User,
   ShoppingCartIcon,
   Menu,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -25,9 +26,11 @@ import {
 import Image from "next/image";
 import useAuth from "@/hooks/use-auth"; // Adjust path accordingly
 import { useCart } from "@/hooks/use-cart";
+import { Badge } from "@/components/ui/badge";
 
 const Navbar = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthorized } = useAuth();
@@ -43,9 +46,20 @@ const Navbar = () => {
     setIsSheetOpen(false);
     router.push(to);
   };
+
   useEffect(() => {
-    hydrateCart();
+    const loadCart = async () => {
+      setIsLoading(true);
+      await hydrateCart();
+      setIsLoading(false);
+    };
+    loadCart();
   }, []);
+
+  const handleCheckout = () => {
+    setIsSheetOpen(false);
+    router.push('/cart');
+  };
 
   return (
     <>
@@ -92,11 +106,10 @@ const Navbar = () => {
                     ))}
                     <Separator className="my-2" />
 
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleNavigate("/login")}
-                    >
-                      Log In
+                    <Button variant="secondary" asChild>
+                      <Link href={isAuthorized ? "/dashboard" : "/login"}>
+                        {isAuthorized ? "Dashboard" : "Log In"}
+                      </Link>
                     </Button>
                   </div>
                 </SheetContent>
@@ -128,17 +141,23 @@ const Navbar = () => {
 
                 <Sheet>
                   <SheetTrigger asChild>
-                    <Button>
+                    <Button className="relative">
                       <ShoppingCartIcon className="h-5 w-5" />
                       {totalItems > 0 && (
-                        <span className="ml-2"> {items.length}</span>
+                        <Badge variant="secondary" className="absolute -right-2 -top-2 h-5 w-5 justify-center rounded-full p-0">
+                          {items.length}
+                        </Badge>
                       )}
                     </Button>
                   </SheetTrigger>
                   <SheetContent className="overflow-y-auto custom-scrollbar">
                     <SheetHeader>
                       <SheetTitle>Shopping Cart</SheetTitle>
-                      {totalItems > 0 ? (
+                      {isLoading ? (
+                        <div className="flex items-center justify-center py-8">
+                          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        </div>
+                      ) : totalItems > 0 ? (
                         <SheetDescription>
                           {items.map((item) => (
                             <div key={item.product._id} className="flex items-center justify-between p-2 border-b">
@@ -153,9 +172,19 @@ const Navbar = () => {
                                 <div className="font-semibold">{item.product.name}</div>
                                 <div className="text-gray-500">₹{item.product.price}</div>
                                 <div className="flex items-center mt-2">
-                                  <button onClick={() => updateQuantity(item.product._id, item.quantity - 1)}>-</button>
+                                  <button
+                                    className="px-2 py-1 rounded-md hover:bg-gray-100"
+                                    onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
+                                  >
+                                    -
+                                  </button>
                                   <span className="mx-2">{item.quantity}</span>
-                                  <button onClick={() => updateQuantity(item.product._id, item.quantity + 1)}>+</button>
+                                  <button
+                                    className="px-2 py-1 rounded-md hover:bg-gray-100"
+                                    onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
+                                  >
+                                    +
+                                  </button>
                                 </div>
                               </div>
                               <button onClick={() => removeItem(item.product._id)} className="text-red-500">Remove</button>
@@ -165,7 +194,10 @@ const Navbar = () => {
                             <span className="font-bold">Total:</span>
                             <span className="font-bold">₹{totalPrice}</span>
                           </div>
-                          <Button onClick={clearCart} className="w-full mt-4">Clear Cart</Button>
+                          <div className="flex flex-col gap-2">
+                            <Button onClick={handleCheckout} className="w-full">Checkout</Button>
+                            <Button onClick={clearCart} variant="destructive" className="w-full">Clear Cart</Button>
+                          </div>
                         </SheetDescription>
                       ) : (
                         <div className="text-sm text-gray-500">Your cart is empty</div>
@@ -208,17 +240,24 @@ const Navbar = () => {
             href="/cart"
             className={
               pathname === "/cart"
-                ? "flex flex-col items-center p-2 text-primary"
-                : "flex flex-col items-center p-2"
+                ? "flex flex-col items-center p-2 text-primary relative"
+                : "flex flex-col items-center p-2 relative"
             }
           >
-            <ShoppingBag className="h-6 w-6" />
+            <div className="relative">
+              <ShoppingBag className="h-6 w-6" />
+              {totalItems > 0 && (
+                <Badge variant="secondary" className="absolute -right-3 -top-2 h-5 w-5 justify-center rounded-full p-0">
+                  {items.length}
+                </Badge>
+              )}
+            </div>
             <span className="mt-1 text-xs">Cart</span>
           </Link>
           <Link
-            href="/account"
+            href="/dashboard"
             className={
-              pathname === "/account"
+              pathname === "/dashboard"
                 ? "flex flex-col items-center p-2 text-primary"
                 : "flex flex-col items-center p-2"
             }
