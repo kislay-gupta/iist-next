@@ -38,7 +38,6 @@ const Teams = () => {
       stopLoading();
     }
   };
-  console.log(teamMembers);
 
   useEffect(() => {
     getTeamMemberData();

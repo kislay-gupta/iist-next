@@ -78,12 +78,11 @@ async function fetchChapterData(slug: string): Promise<ApiResponse | null> {
 
 export default async function Page({ params }: PageParams) {
     try {
-        const { slug, chapter } = await params
+        const { chapter } = await params
         const currentChapterSlug = chapter[chapter.length - 1]
 
-        console.log('Tutorial Slug:', slug)
-        console.log('Chapter Path:', chapter)
-        console.log('Current Chapter Slug:', currentChapterSlug)
+
+
 
         const chapterData = await fetchChapterData(currentChapterSlug)
 

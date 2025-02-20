@@ -15,7 +15,6 @@ const Page = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}test`);
-                console.log(response, "K");
                 setData(response.data);
                 setLoading(false);
             } catch (error) {
@@ -25,7 +24,6 @@ const Page = () => {
         };
         fetchData();
     }, []);
-    console.log(data);
     if (loading) {
         return <div>Loading...</div>;
     }

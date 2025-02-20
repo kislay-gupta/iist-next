@@ -16,7 +16,7 @@ export default async function ProtectedLayout({
         {/* Navigation content */}
       </nav>
 
-      <main className="container mx-auto p-4">{children}</main>
+      <main className="">{children}</main>
     </div>
   );
 }

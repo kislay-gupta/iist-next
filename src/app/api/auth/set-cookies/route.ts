@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const { session_id, userID, role } = await req.json();
-    console.log(session_id, userID, role, "request receive");
+
     // Set cookies
     const cookieStore = await cookies();
     cookieStore.set("session_id", session_id);

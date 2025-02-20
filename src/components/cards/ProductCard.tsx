@@ -1,12 +1,9 @@
 "use client";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useCart } from "@/hooks/use-cart";
-import { toast } from "sonner";
+import { AddToCartButton } from "@/components/ui/add-to-cart-button";
 
 interface ProductCardProps {
   title: string;
@@ -28,25 +25,20 @@ export function ProductCard({
   onAddToCart,
 }: ProductCardProps) {
   const discount = Math.round(((originalPrice - price) / originalPrice) * 100);
-  const { addItem } = useCart();
 
-  const handleAddToCart = () => {
-    addItem({
-      _id: slug,
-      name: title,
-      image,
-      price,
-      min_qty: 1,
-    });
-    if (onAddToCart) onAddToCart();
-    toast.success(`${title} added to cart`);
+  const product = {
+    _id: slug,
+    name: title,
+    image,
+    price,
+    min_qty: 1,
   };
 
   return (
     <Card className="group relative w-full overflow-hidden transition-all duration-300 hover:shadow-lg">
       <Link href={`/projects/${category}/${slug}`}>
         <CardContent className="p-0">
-          <div className="relative  h-auto w-full overflow-hidden bg-gray-100">
+          <div className="relative h-auto w-full overflow-hidden bg-gray-100">
             <Image
               src={image}
               alt={title || "Product Image"}
@@ -78,13 +70,11 @@ export function ProductCard({
         </CardContent>
       </Link>
       <CardFooter className="p-5 pt-0">
-        <Button
+        <AddToCartButton
+          product={product}
           className="w-full gap-2 bg-green-600 font-medium hover:bg-green-700"
-          onClick={handleAddToCart}
-        >
-          <ShoppingCart className="h-4 w-4" />
-          Add to Cart
-        </Button>
+          onAddToCart={onAddToCart}
+        />
       </CardFooter>
     </Card>
   );

@@ -150,8 +150,8 @@ const Navbar = () => {
                                 className="object-cover"
                               />
                               <div className="flex-1 ml-4">
-                                <p className="font-semibold">{item.product.name}</p>
-                                <p className="text-gray-500">${item.product.price}</p>
+                                <div className="font-semibold">{item.product.name}</div>
+                                <div className="text-gray-500">₹{item.product.price}</div>
                                 <div className="flex items-center mt-2">
                                   <button onClick={() => updateQuantity(item.product._id, item.quantity - 1)}>-</button>
                                   <span className="mx-2">{item.quantity}</span>
@@ -168,7 +168,7 @@ const Navbar = () => {
                           <Button onClick={clearCart} className="w-full mt-4">Clear Cart</Button>
                         </SheetDescription>
                       ) : (
-                        <p>Your cart is empty</p>
+                        <div className="text-sm text-gray-500">Your cart is empty</div>
                       )}
                     </SheetHeader>
                   </SheetContent>

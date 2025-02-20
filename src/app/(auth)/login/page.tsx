@@ -32,8 +32,7 @@ export default function LoginForm() {
       );
       if (response.data.status) {
         const { session_id, userID, role } = response.data;
-        console.log(response.data, "response data");
-        console.log(session_id, userID, role, "request sent");
+
         // Call API to set cookies in the server
         await fetch("/api/auth/set-cookies", {
           method: "POST",
@@ -46,7 +45,7 @@ export default function LoginForm() {
       } else {
         toast.warning(response.data.text);
       }
-      console.log(response.data.data);
+
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
