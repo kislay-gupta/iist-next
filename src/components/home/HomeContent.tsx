@@ -29,9 +29,7 @@ export default function HomeContent() {
     );
   }
 
-  if (!categories) {
-    return <div>No categories found</div>;
-  }
+
 
   return (
     <>
@@ -49,17 +47,22 @@ export default function HomeContent() {
           <div className="container mx-auto lg:my-16">
             <TextAnimation text="Project Categories" />
             <div className="max-sm:hidden">
-              <AnimatedGrid>
-                {categories?.data?.map((category: Category) => (
-                  <ProjectCard
-                    key={category.sno}
-                    image={category.imageLink}
-                    slug={category.slug}
-                    title={category.CatName}
-                    isLoading={isLoading}
-                  />
-                ))}
-              </AnimatedGrid>
+              {categories && categories.data.length > 0 ? (
+                <AnimatedGrid>
+                  {categories?.data?.map((category: Category) => (
+                    <ProjectCard
+                      key={category.sno}
+                      image={category.imageLink}
+                      slug={category.slug}
+                      title={category.CatName}
+                      isLoading={isLoading}
+                    />
+                  ))}
+                </AnimatedGrid>) : (
+                <>
+                  <div className="text-center text-2xl font-bold">No categories found</div>
+                </>
+              )}
             </div>
             <ScrollArea className="whitespace-nowrap rounded-md border md:hidden">
               <div className="flex w-max space-x-4 p-4">
@@ -82,17 +85,22 @@ export default function HomeContent() {
             <div className="hidden md:block">
               <TextAnimation text="Latest Blog" />
               <div className="container mx-auto ">
-                <AnimatedGrid>
-                  {categories?.data?.map((category: Category) => (
-                    <ProjectCard
-                      key={category.sno}
-                      image={category.imageLink}
-                      slug={category.slug}
-                      title={category.CatName}
-                      isLoading={isLoading}
-                    />
-                  ))}
-                </AnimatedGrid>
+                {categories && categories.data.length > 0 ? (
+                  <AnimatedGrid>
+                    {categories?.data?.map((category: Category) => (
+                      <ProjectCard
+                        key={category.sno}
+                        image={category.imageLink}
+                        slug={category.slug}
+                        title={category.CatName}
+                        isLoading={isLoading}
+                      />
+                    ))}
+                  </AnimatedGrid>) : (
+                  <>
+                    <div className="text-center text-2xl font-bold">No categories found</div>
+                  </>
+                )}
               </div>
             </div>
           </div>

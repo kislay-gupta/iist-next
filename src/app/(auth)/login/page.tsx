@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -5,8 +6,54 @@ import { Label } from "@/components/ui/label";
 import loginform from "@/assets/logobg.jpg";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+import axios from "axios";
+import useLoader from "@/hooks/use-loader";
+import { toast } from "sonner";
+import { Loader2, Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const { isLoading, startLoading, stopLoading } = useLoader();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const handleLogin = async () => {
+    const formData = new FormData();
+    formData.append("req_data", "userValidation");
+    formData.append("username", email);
+    formData.append("password", password);
+    startLoading();
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}users`,
+        formData
+      );
+      if (response.data.status) {
+        const { session_id, userID, role } = response.data;
+        console.log(response.data, "response data");
+        console.log(session_id, userID, role, "request sent");
+        // Call API to set cookies in the server
+        await fetch("/api/auth/set-cookies", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ session_id, userID, role }),
+        });
+
+        toast.success(response.data.text);
+        router.replace("/dashboard");
+      } else {
+        toast.warning(response.data.text);
+      }
+      console.log(response.data.data);
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    } finally {
+      stopLoading();
+    }
+  };
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-gray-50 to-white">
       <div className="w-full max-w-4xl">
@@ -20,7 +67,7 @@ export default function LoginForm() {
         <div className="flex flex-col gap-6">
           <Card className="overflow-hidden border-gray-200 bg-white/80 backdrop-blur-sm shadow-lg">
             <CardContent className="grid p-0 md:grid-cols-2">
-              <form className="p-8 md:p-10">
+              <div className="p-8 md:p-10">
                 <div className="flex flex-col gap-8">
                   <div className="flex flex-col items-center text-center space-y-2">
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
@@ -39,6 +86,7 @@ export default function LoginForm() {
                       type="email"
                       placeholder="m@example.com"
                       required
+                      onChange={(e) => setEmail(e.target.value)}
                       className="bg-gray-50 border-gray-200 focus:border-gray-400 focus:ring-gray-400"
                     />
                   </div>
@@ -54,18 +102,43 @@ export default function LoginForm() {
                         Forgot your password?
                       </a>
                     </div>
-                    <Input
-                      id="password"
-                      type="password"
-                      required
-                      className="bg-gray-50 border-gray-200 focus:border-gray-400 focus:ring-gray-400"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="bg-gray-50 border-gray-200 focus:border-gray-400 focus:ring-gray-400 pr-10"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-500" />
+                        )}
+                        <span className="sr-only">
+                          {showPassword ? "Hide password" : "Show password"}
+                        </span>
+                      </Button>
+                    </div>
                   </div>
                   <Button
-                    type="submit"
+                    onClick={handleLogin}
+                    disabled={isLoading}
                     className="w-full bg-gray-900 hover:bg-gray-800 text-white"
                   >
-                    Login
+                    {isLoading ? (
+                      <span className="flex gap-2 items-center justify-center">
+                        <Loader2 className="animate-spin" /> submit.....
+                      </span>
+                    ) : (
+                      <span>Log in</span>
+                    )}
                   </Button>
                   <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-gray-200">
                     <span className="relative z-10 bg-white px-2 text-gray-500">
@@ -120,7 +193,7 @@ export default function LoginForm() {
                     </Link>
                   </div>
                 </div>
-              </form>
+              </div>
               <div className="relative hidden bg-muted md:block">
                 <Image
                   src={loginform}
