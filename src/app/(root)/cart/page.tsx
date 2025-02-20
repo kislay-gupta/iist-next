@@ -35,6 +35,22 @@ const CartItemSkeleton = () => (
     </div>
 );
 
+const EmptyCartState = () => (
+    <div className="flex flex-col items-center justify-center py-12 px-4">
+        <div className="bg-gray-100 rounded-full p-6 mb-6">
+            <ShoppingCart className="h-12 w-12 text-gray-400" />
+        </div>
+        <h3 className="text-2xl font-semibold text-gray-900 mb-2">Your cart is empty</h3>
+        <p className="text-gray-500 text-center mb-8">Looks like you haven&apos;t added any items to your cart yet.</p>
+        <Link href="/projects">
+            <Button className="bg-blue-600 hover:bg-blue-700 transition-colors">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Start Shopping
+            </Button>
+        </Link>
+    </div>
+);
+
 export default function CartPage() {
     const {
         items,
@@ -54,6 +70,26 @@ export default function CartPage() {
         };
         loadCart();
     }, [hydrateCart]);
+
+    if (!isLoading && items.length === 0) {
+        return (
+            <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
+                    <Card className="backdrop-blur-sm bg-white/90 shadow-xl rounded-2xl border-0">
+                        <CardHeader className="px-6 py-8">
+                            <CardTitle className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                                <ShoppingCart className="h-7 w-7 text-blue-600" />
+                                Shopping Cart
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <EmptyCartState />
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8">
