@@ -1,3 +1,4 @@
+"use client";
 import SignUpForm from "@/components/Forms/SignUpForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -5,8 +6,12 @@ import Link from "next/link";
 import React from "react";
 import loginform from "@/assets/logobg.jpg";
 import Image from "next/image";
+import { toast } from "sonner";
 
 const Page = () => {
+  const handleClick = () => {
+    toast.info("Coming soon");
+  };
   return (
     <>
       <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-gray-50 to-white">
@@ -21,7 +26,7 @@ const Page = () => {
           <div className="flex flex-col gap-6">
             <Card className="overflow-hidden border-gray-200 bg-white/80 backdrop-blur-sm shadow-lg">
               <CardContent className="grid p-0 md:grid-cols-2">
-                <form className="p-8 md:p-10">
+                <div className="p-8 md:p-10">
                   <div className="flex flex-col gap-8">
                     <div className="flex flex-col items-center text-center space-y-2">
                       <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
@@ -38,7 +43,11 @@ const Page = () => {
                       </span>
                     </div>
                     <div className="grid grid-cols-3 gap-4">
-                      <Button variant="outline" className="w-full">
+                      <Button
+                        onClick={handleClick}
+                        variant="outline"
+                        className="w-full"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -50,7 +59,11 @@ const Page = () => {
                         </svg>
                         <span className="sr-only">Login with Apple</span>
                       </Button>
-                      <Button variant="outline" className="w-full">
+                      <Button
+                        onClick={handleClick}
+                        variant="outline"
+                        className="w-full"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -62,7 +75,11 @@ const Page = () => {
                         </svg>
                         <span className="sr-only">Login with Google</span>
                       </Button>
-                      <Button variant="outline" className="w-full">
+                      <Button
+                        onClick={handleClick}
+                        variant="outline"
+                        className="w-full"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -76,16 +93,16 @@ const Page = () => {
                       </Button>
                     </div>
                     <div className="text-center text-sm">
-                      Don&apos;t have an account?{" "}
+                      already have an account?{" "}
                       <Link
-                        href="/sign-up"
+                        href="/login"
                         className="underline underline-offset-4"
                       >
-                        Sign up
+                        Login
                       </Link>
                     </div>
                   </div>
-                </form>
+                </div>
                 <div className="relative hidden bg-muted md:block">
                   <Image
                     src={loginform}

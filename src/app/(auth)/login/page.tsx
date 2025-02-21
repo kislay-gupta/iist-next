@@ -19,6 +19,9 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const handleClick = () => {
+    toast.info("Coming soon");
+  };
   const handleLogin = async () => {
     const formData = new FormData();
     formData.append("req_data", "userValidation");
@@ -45,7 +48,6 @@ export default function LoginForm() {
       } else {
         toast.warning(response.data.text);
       }
-
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -145,7 +147,11 @@ export default function LoginForm() {
                     </span>
                   </div>
                   <div className="grid grid-cols-3 gap-4">
-                    <Button variant="outline" className="w-full">
+                    <Button
+                      onClick={handleClick}
+                      variant="outline"
+                      className="w-full"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -157,7 +163,11 @@ export default function LoginForm() {
                       </svg>
                       <span className="sr-only">Login with Apple</span>
                     </Button>
-                    <Button variant="outline" className="w-full">
+                    <Button
+                      onClick={handleClick}
+                      variant="outline"
+                      className="w-full"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -169,7 +179,11 @@ export default function LoginForm() {
                       </svg>
                       <span className="sr-only">Login with Google</span>
                     </Button>
-                    <Button variant="outline" className="w-full">
+                    <Button
+                      onClick={handleClick}
+                      variant="outline"
+                      className="w-full"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"

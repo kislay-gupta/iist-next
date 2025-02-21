@@ -18,7 +18,6 @@ import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -35,12 +34,14 @@ const Navbar = () => {
   const pathname = usePathname();
   const { isAuthorized } = useAuth();
   const { hydrateCart } = useCart();
-  const { items,
+  const {
+    items,
     removeItem,
     updateQuantity,
     totalItems,
     totalPrice,
-    clearCart, } = useCart((state) => state);
+    clearCart,
+  } = useCart((state) => state);
 
   const handleNavigate = (to: string) => {
     setIsSheetOpen(false);
@@ -57,8 +58,8 @@ const Navbar = () => {
   }, []);
 
   const handleCheckout = () => {
+    router.push("/cart");
     setIsSheetOpen(false);
-    router.push('/cart');
   };
 
   return (
@@ -139,70 +140,108 @@ const Navbar = () => {
                   </Link>
                 </Button>
 
-                <Sheet>
+                <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                   <SheetTrigger asChild>
                     <Button className="relative">
                       <ShoppingCartIcon className="h-5 w-5" />
                       {totalItems > 0 && (
-                        <Badge variant="secondary" className="absolute -right-2 -top-2 h-5 w-5 justify-center rounded-full p-0">
+                        <Badge
+                          variant="secondary"
+                          className="absolute -right-2 -top-2 h-5 w-5 justify-center rounded-full p-0"
+                        >
                           {items.length}
                         </Badge>
                       )}
                     </Button>
                   </SheetTrigger>
-                  <SheetContent className="overflow-y-auto custom-scrollbar">
+                  <SheetContent className="custom-scrollbar overflow-y-auto">
                     <SheetHeader>
                       <SheetTitle>Shopping Cart</SheetTitle>
-                      {isLoading ? (
-                        <div className="flex items-center justify-center py-8">
-                          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                        </div>
-                      ) : totalItems > 0 ? (
-                        <SheetDescription>
-                          {items.map((item) => (
-                            <div key={item.product._id} className="flex items-center justify-between p-2 border-b">
-                              <Image
-                                src={item.product.image}
-                                alt={item.product.name}
-                                width={50}
-                                height={50}
-                                className="object-cover"
-                              />
-                              <div className="flex-1 ml-4">
-                                <div className="font-semibold">{item.product.name}</div>
-                                <div className="text-gray-500">₹{item.product.price}</div>
-                                <div className="flex items-center mt-2">
-                                  <button
-                                    className="px-2 py-1 rounded-md hover:bg-gray-100"
-                                    onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
-                                  >
-                                    -
-                                  </button>
-                                  <span className="mx-2">{item.quantity}</span>
-                                  <button
-                                    className="px-2 py-1 rounded-md hover:bg-gray-100"
-                                    onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                              </div>
-                              <button onClick={() => removeItem(item.product._id)} className="text-red-500">Remove</button>
-                            </div>
-                          ))}
-                          <div className="flex justify-between p-4">
-                            <span className="font-bold">Total:</span>
-                            <span className="font-bold">₹{totalPrice}</span>
-                          </div>
-                          <div className="flex flex-col gap-2">
-                            <Button onClick={handleCheckout} className="w-full">Checkout</Button>
-                            <Button onClick={clearCart} variant="destructive" className="w-full">Clear Cart</Button>
-                          </div>
-                        </SheetDescription>
-                      ) : (
-                        <div className="text-sm text-gray-500">Your cart is empty</div>
-                      )}
                     </SheetHeader>
+                    {isLoading ? (
+                      <div className="flex items-center justify-center py-8">
+                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                      </div>
+                    ) : totalItems > 0 ? (
+                      <div className="mt-4">
+                        {items.map((item) => (
+                          <div
+                            key={item.product._id}
+                            className="flex items-center justify-between border-b p-2"
+                          >
+                            <Image
+                              src={item.product.image}
+                              alt={item.product.name}
+                              width={50}
+                              height={50}
+                              className="object-cover"
+                            />
+                            <div className="ml-4 flex-1">
+                              <div className="font-semibold">
+                                {item.product.name}
+                              </div>
+                              <div className="text-gray-500">
+                                ₹{item.product.price}
+                              </div>
+                              <div className="mt-2 flex items-center">
+                                <button
+                                  className="rounded-md px-2 py-1 hover:bg-gray-100"
+                                  onClick={() =>
+                                    updateQuantity(
+                                      item.product._id,
+                                      item.quantity - 1,
+                                    )
+                                  }
+                                >
+                                  -
+                                </button>
+                                <span className="mx-2">{item.quantity}</span>
+                                <button
+                                  className="rounded-md px-2 py-1 hover:bg-gray-100"
+                                  onClick={() =>
+                                    updateQuantity(
+                                      item.product._id,
+                                      item.quantity + 1,
+                                    )
+                                  }
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => removeItem(item.product._id)}
+                              className="text-red-500"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                        <div className="flex justify-between p-4">
+                          <span className="font-bold">Total:</span>
+                          <span className="font-bold">₹{totalPrice}</span>
+                        </div>
+                        <div className="flex flex-col gap-2 px-4">
+                          <Button
+                            onClick={() => handleCheckout()}
+                            className="w-full"
+                          >
+                            Checkout
+                          </Button>
+                          <Button
+                            onClick={clearCart}
+                            variant="destructive"
+                            className="w-full"
+                          >
+                            Clear Cart
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="mt-4 text-sm text-gray-500">
+                        Your cart is empty
+                      </div>
+                    )}
                   </SheetContent>
                 </Sheet>
               </div>
@@ -240,14 +279,17 @@ const Navbar = () => {
             href="/cart"
             className={
               pathname === "/cart"
-                ? "flex flex-col items-center p-2 text-primary relative"
-                : "flex flex-col items-center p-2 relative"
+                ? "relative flex flex-col items-center p-2 text-primary"
+                : "relative flex flex-col items-center p-2"
             }
           >
             <div className="relative">
               <ShoppingBag className="h-6 w-6" />
               {totalItems > 0 && (
-                <Badge variant="secondary" className="absolute -right-3 -top-2 h-5 w-5 justify-center rounded-full p-0">
+                <Badge
+                  variant="secondary"
+                  className="absolute -right-3 -top-2 h-5 w-5 justify-center rounded-full p-0"
+                >
                   {items.length}
                 </Badge>
               )}

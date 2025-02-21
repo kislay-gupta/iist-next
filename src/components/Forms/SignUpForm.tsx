@@ -61,7 +61,7 @@ export default function SignUpForm() {
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}users`,
-        formDataToSend
+        formDataToSend,
       );
 
       toast.success(response.data.text);
@@ -81,7 +81,7 @@ export default function SignUpForm() {
   };
 
   return (
-    <form className="space-y-4 grid grid-cols-2 text-black">
+    <form className=" my-auto grid grid-cols-2 gap-2 text-black">
       <div>
         <label>Full Name</label>
         <Input
@@ -105,7 +105,7 @@ export default function SignUpForm() {
         />
       </div>
 
-      <div>
+      <div className="col-span-full">
         <label>Phone Number</label>
         <Input
           name="number"
@@ -153,8 +153,8 @@ export default function SignUpForm() {
           <p
             className={
               formData.password === formData.confirmPassword
-                ? "text-green-600 text-sm"
-                : "text-red-600 text-sm"
+                ? "text-sm text-green-600"
+                : "text-sm text-red-600"
             }
           >
             {formData.password === formData.confirmPassword
@@ -163,17 +163,18 @@ export default function SignUpForm() {
           </p>
         )}
       </div>
-
-      <Button onClick={onSubmit} className="w-full" disabled={isSubmitting} >
-        {isSubmitting ? (
-          <>
-            <Loader2 className="mr-2 size-4 animate-spin" />
-            Please wait...
-          </>
-        ) : (
-          "Sign up"
-        )}
-      </Button>
+      <div className="col-span-full">
+        <Button onClick={onSubmit} className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 size-4 animate-spin" />
+              Please wait...
+            </>
+          ) : (
+            "Sign up"
+          )}
+        </Button>
+      </div>
     </form>
   );
 }
