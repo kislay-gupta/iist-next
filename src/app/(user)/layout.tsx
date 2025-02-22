@@ -1,22 +1,28 @@
 // app/(protected)/layout.tsx
 import { validateServerSession } from "@/lib/auth";
+import UserNavbar from "@/components/user/UserNavbar";
+import UserSidebar from "@/components/user/UserSidebar";
+import { Metadata } from "next";
 
-export default async function ProtectedLayout({
+export const metadata: Metadata = {
+  title: "User Dashboard | IIST",
+  description: "IIST user dashboard for managing your account and activities",
+};
+
+export default async function UserLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Validate session on the server side
   await validateServerSession();
 
   return (
     <div className="min-h-screen">
-      {/* Your layout components like Navbar, Sidebar etc */}
-      <nav className="bg-gray-800 text-white p-4">
-        {/* Navigation content */}
-      </nav>
-
-      <main className="">{children}</main>
+      <UserNavbar />
+      <div className="flex">
+        <UserSidebar />
+        <main className="flex-1">{children}</main>
+      </div>
     </div>
   );
 }

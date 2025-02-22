@@ -2,6 +2,12 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import OnboardingForm from "@/components/Forms/OnboardingForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Complete Your Profile | IIST",
+  description: "Complete your profile information to get started with IIST",
+};
 
 export default function OnboardingPage() {
     return (
