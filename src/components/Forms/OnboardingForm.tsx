@@ -20,9 +20,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useState } from "react";
+import Image from "next/image";
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -33,13 +34,15 @@ const formSchema = z.object({
     .min(2, "Institution name must be at least 2 characters"),
   branch: z.string().min(2, "Branch/Class must be at least 2 characters"),
   address: z.string().min(10, "Address must be at least 10 characters"),
+  image: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export default function OnboardingForm() {
   const [step, setStep] = useState(1);
-  const totalSteps = 4;
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const totalSteps = 5;
   const router = useRouter();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -51,8 +54,22 @@ export default function OnboardingForm() {
       institution: "",
       branch: "",
       address: "",
+      image: "",
     },
   });
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setImagePreview(base64String);
+        form.setValue("image", base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
@@ -84,6 +101,8 @@ export default function OnboardingForm() {
         return ["institution", "branch"];
       case 4:
         return ["address"];
+      case 5:
+        return ["image"];
       default:
         return [];
     }
@@ -255,7 +274,41 @@ export default function OnboardingForm() {
               />
             </div>
           )}
-
+          {step === 5 && (
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Profile Picture</FormLabel>
+                    <FormControl>
+                      <div className="space-y-4">
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="cursor-pointer"
+                          {...field}
+                        />
+                        {imagePreview && (
+                          <div className="relative mx-auto h-40 w-40 overflow-hidden rounded-full">
+                            <Image
+                              src={imagePreview}
+                              alt="Profile preview"
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
           <div className="flex justify-between pt-4">
             {step > 1 && (
               <Button type="button" variant="outline" onClick={prevStep}>

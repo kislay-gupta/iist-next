@@ -35,6 +35,7 @@ export default function LoginForm() {
       );
       if (response.data.status) {
         const { session_id, userID, role } = response.data;
+        const { onboarding } = response.data.data;
 
         // Call API to set cookies in the server
         await fetch("/api/auth/set-cookies", {
@@ -44,7 +45,11 @@ export default function LoginForm() {
         });
 
         toast.success(response.data.text);
-        router.replace("/dashboard");
+        if (onboarding) {
+          router.replace("/dashboard");
+        } else {
+          router.replace("/onboarding");
+        }
       } else {
         toast.warning(response.data.text);
       }

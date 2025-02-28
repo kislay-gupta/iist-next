@@ -1,10 +1,12 @@
 import { BgCard } from "@/components/cards";
 import ClickToCopy from "@/components/project/ClickToCopy";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Link, Download } from "lucide-react";
+import { Link, Download } from "lucide-react";
 import Image from "next/image";
 import parse from "html-react-parser";
 import { Metadata } from "next";
+import { AddToCartButton } from "@/components/ui/add-to-cart-button";
+
 type PageParams = {
   params: Promise<{
     slug: string;
@@ -45,6 +47,16 @@ export default async function Page({ params }: PageParams) {
 
   const product = data.data[0];
   const { name, imageLink, pdfLink, price, DiscPrice, Description } = product;
+
+  // Create product object for cart
+  const cartProduct = {
+    _id: resolvedParams.slug,
+    name: name,
+    image: imageLink,
+    price: Number(DiscPrice),
+    min_qty: 1,
+  };
+
   return (
     <div className="lg:w-full    lg:px-4 px-2 py-6 lg:py-12">
       <div className="grid md:grid-cols-12 gap-y-4 lg:gap-12">
@@ -71,10 +83,10 @@ export default async function Page({ params }: PageParams) {
 
           {/* Action Buttons */}
           <div className="flex gap-4">
-            <Button className="w-full h-12 text-lg bg-blue-600 hover:bg-blue-700 text-white">
-              <ShoppingCart className="mr-2 h-5 w-5" />
-              Add to Cart
-            </Button>
+            <AddToCartButton
+              product={cartProduct}
+              className="w-full h-12 text-lg bg-blue-600 hover:bg-blue-700 text-white"
+            />
 
             {pdfLink && (
               <Button

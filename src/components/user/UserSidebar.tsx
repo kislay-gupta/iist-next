@@ -11,6 +11,7 @@ import {
   Settings,
   User,
   Menu,
+  Home,
 } from "lucide-react";
 import {
   Sheet,
@@ -21,6 +22,11 @@ import {
 } from "@/components/ui/sheet";
 
 const sidebarLinks = [
+  {
+    title: "Home",
+    href: "/",
+    icon: Home,
+  },
   {
     title: "Dashboard",
     href: "/dashboard",
