@@ -21,9 +21,11 @@ interface Project {
 
 type PageParams = {
   params: Promise<{ slug: string }>;
-}
+};
 
-export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageParams): Promise<Metadata> {
   const { slug } = await params;
   const formattedSlug = slug
     .split("-")
@@ -53,13 +55,13 @@ async function getProducts(category: string) {
         message: error.message,
         stack: error.stack,
         category,
-        url: `${conf.baseUrl}projectData?req_data=getProjectByCatSlug&CatSlug=${category}`
+        url: `${conf.baseUrl}projectData?req_data=getProjectByCatSlug&CatSlug=${category}`,
       });
     } else {
       console.error("Unknown error fetching products:", {
         error,
         category,
-        url: `${conf.baseUrl}projectData?req_data=getProjectByCatSlug&CatSlug=${category}`
+        url: `${conf.baseUrl}projectData?req_data=getProjectByCatSlug&CatSlug=${category}`,
       });
     }
     return [];
@@ -98,6 +100,7 @@ export default async function Page({ params }: PageParams) {
               <div key={product.sno}>
                 <ProductCard
                   category={slug}
+                  sno={product.sno}
                   slug={product.slug}
                   title={product.name}
                   image={product.imageLink}

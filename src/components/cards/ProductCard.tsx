@@ -6,6 +6,7 @@ import Image from "next/image";
 import { AddToCartButton } from "@/components/ui/add-to-cart-button";
 
 interface ProductCardProps {
+  sno: number;
   title: string;
   image: string;
   price: number;
@@ -16,6 +17,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({
+  sno,
   title,
   image,
   price,
@@ -27,6 +29,7 @@ export function ProductCard({
   const discount = Math.round(((originalPrice - price) / originalPrice) * 100);
 
   const product = {
+    sno: sno,
     _id: slug,
     name: title,
     image,

@@ -1,4 +1,5 @@
 export interface Product {
+  sno: number;
   _id: string;
   name: string;
   image: string;

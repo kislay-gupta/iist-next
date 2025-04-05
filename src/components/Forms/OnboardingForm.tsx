@@ -279,7 +279,7 @@ export default function OnboardingForm() {
               <FormField
                 control={form.control}
                 name="image"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel>Profile Picture</FormLabel>
                     <FormControl>
@@ -289,7 +289,6 @@ export default function OnboardingForm() {
                           accept="image/*"
                           onChange={handleImageChange}
                           className="cursor-pointer"
-                          {...field}
                         />
                         {imagePreview && (
                           <div className="relative mx-auto h-40 w-40 overflow-hidden rounded-full">

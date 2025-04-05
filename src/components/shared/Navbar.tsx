@@ -23,13 +23,16 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
-import useAuth from "@/hooks/use-auth"; // Adjust path accordingly
+import useAuth from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
 import { Badge } from "@/components/ui/badge";
-
+import axios from "axios";
+import Cookie from "universal-cookie";
+import { Product } from "@/types/product";
 const Navbar = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [cartItem, setCartItem] = useState<Product[] | null>([]);
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthorized } = useAuth();
@@ -47,15 +50,28 @@ const Navbar = () => {
     setIsSheetOpen(false);
     router.push(to);
   };
-
+  const cookie = new Cookie();
+  const handleGetCartItems = async () => {
+    const user_id = cookie.get("user_id");
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}order_cart?req_data=getCartbyUser&userID=${user_id}`,
+      );
+      setCartItem(res.data.data);
+      console.log(cartItem);
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+    }
+  };
   useEffect(() => {
     const loadCart = async () => {
       setIsLoading(true);
+      handleGetCartItems();
       await hydrateCart();
       setIsLoading(false);
     };
     loadCart();
-  }, []);
+  }, [isSheetOpen]);
 
   const handleCheckout = () => {
     router.push("/cart");
