@@ -4,9 +4,7 @@ import * as React from "react";
 import { ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "./button";
-import { useCart } from "@/hooks/use-cart";
 import { Product } from "@/types/product";
-import config from "@/config/config";
 import axios from "axios";
 import Cookie from "universal-cookie";
 
@@ -35,7 +33,6 @@ export function AddToCartButton({
   children,
   ...props
 }: AddToCartButtonProps) {
-  const { addItem } = useCart();
   const [isAdding, setIsAdding] = React.useState(false);
   const cookie = new Cookie();
   const handleAddToCart = async () => {

@@ -46,10 +46,12 @@ export default async function Page({ params }: PageParams) {
   const data = await getComPonentsBySlug(resolvedParams.slug);
 
   const product = data.data[0];
-  const { name, imageLink, pdfLink, price, DiscPrice, Description } = product;
+  const { sno, name, imageLink, pdfLink, price, DiscPrice, Description } =
+    product;
 
   // Create product object for cart
   const cartProduct = {
+    sno: sno,
     _id: resolvedParams.slug,
     name: name,
     image: imageLink,

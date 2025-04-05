@@ -14,17 +14,18 @@ export async function MoreProject({
 }) {
   const data = await getProducts(category);
   const filteredData = data.filter(
-    (item: Project) => item.slug !== projects_slug
+    (item: Project) => item.slug !== projects_slug,
   );
   if (filteredData.length === 0) {
     return <div className="flex justify-center">No products found</div>;
   }
   return (
-    <ScrollArea className="w-full lg:whitespace-nowrap rounded-md border">
-      <div className="flex w-full sm:w-max space-x-4 p-4">
+    <ScrollArea className="w-full rounded-md border lg:whitespace-nowrap">
+      <div className="flex w-full space-x-4 p-4 sm:w-max">
         {filteredData.map((item: Project) => (
           <div className="lg:w-[250px]" key={item.sno}>
             <ProductCard
+              sno={item.sno}
               category={category}
               slug={item.slug}
               title={item.name}

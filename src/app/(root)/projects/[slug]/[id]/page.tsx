@@ -1,20 +1,19 @@
-
-
 import axios from "axios";
 import { Metadata } from "next";
 
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Download } from 'lucide-react'
-import ClickToCopy from '@/components/project/ClickToCopy'
-import { MoreProject } from '@/components/project/MoreProject'
-import BgCard from '@/components/cards/BgCard'
-import parse from 'html-react-parser'
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
+import ClickToCopy from "@/components/project/ClickToCopy";
+import { MoreProject } from "@/components/project/MoreProject";
+import BgCard from "@/components/cards/BgCard";
+import parse from "html-react-parser";
 import { AddToCartButton } from "@/components/ui/add-to-cart-button";
 // Define the project data type
 interface ProjectData {
+  sno: number;
   name: string;
   imageLink: string;
   pdfLink?: string;
@@ -36,9 +35,9 @@ async function getProjectData(id: string): Promise<ProjectData | null> {
         {
           timeout: TIMEOUT,
           headers: {
-            'Accept': 'application/json',
-            'Cache-Control': 'no-cache'
-          }
+            Accept: "application/json",
+            "Cache-Control": "no-cache",
+          },
         }
       );
 
@@ -55,19 +54,22 @@ async function getProjectData(id: string): Promise<ProjectData | null> {
           message: error.message,
           code: error.code,
           status: error.response?.status,
-          url: error.config?.url
+          url: error.config?.url,
         });
       } else {
-        console.error(`Attempt ${attempt}/${MAX_RETRIES} failed with unknown error:`, error);
+        console.error(
+          `Attempt ${attempt}/${MAX_RETRIES} failed with unknown error:`,
+          error
+        );
       }
 
       if (isLastAttempt) {
-        console.error('All retry attempts failed for project data fetch');
+        console.error("All retry attempts failed for project data fetch");
         return null;
       }
 
       // Wait before retrying
-      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY));
     }
   }
 
@@ -118,10 +120,12 @@ export default async function ProjectPage({ params }: PageParams) {
     );
   }
 
-  const { name, imageLink, pdfLink, price, DiscPrice, Description } = project;
+  const { sno, name, imageLink, pdfLink, price, DiscPrice, Description } =
+    project;
 
   // Create product object for cart
   const cartProduct = {
+    sno: sno,
     _id: resolvedParams.id,
     name: name,
     image: imageLink,
@@ -157,14 +161,12 @@ export default async function ProjectPage({ params }: PageParams) {
             {/* Action Buttons */}
             <div className="flex gap-4 ">
               <div className="w-full">
-
                 <AddToCartButton
                   product={cartProduct}
                   className="w-full h-12 text-lg bg-blue-600 hover:bg-blue-700 text-white"
                 />
               </div>
               <div className="w-full">
-
                 {pdfLink && (
                   <Button
                     variant="outline"
@@ -199,8 +201,10 @@ export default async function ProjectPage({ params }: PageParams) {
                       ₹{price}
                     </span>
                     <span className="text-sm font-medium text-green-600 bg-green-100 px-2 py-1 rounded">
-                      {Math.round((1 - Number(DiscPrice) / Number(price)) * 100)}%
-                      OFF
+                      {Math.round(
+                        (1 - Number(DiscPrice) / Number(price)) * 100
+                      )}
+                      % OFF
                     </span>
                   </div>
                 )}
@@ -272,7 +276,10 @@ export default async function ProjectPage({ params }: PageParams) {
           </div>
           <div className="w-full">
             {/* Similar project cards */}
-            <MoreProject category={resolvedParams.slug} projects_slug={resolvedParams.id} />
+            <MoreProject
+              category={resolvedParams.slug}
+              projects_slug={resolvedParams.id}
+            />
           </div>
         </div>
       </div>
