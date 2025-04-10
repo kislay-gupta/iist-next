@@ -21,7 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
+
 import axios, { AxiosError } from "axios";
 import useLoader from "@/hooks/use-loader";
 import Loader from "../shared/Loader";

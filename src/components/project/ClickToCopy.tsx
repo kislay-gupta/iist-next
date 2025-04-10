@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { Share2 } from "lucide-react";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 const ClickToCopy = () => {
   return (

@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import axios, { AxiosError } from "axios";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
+
 import { Loader2 } from "lucide-react";
 import * as z from "zod";
 

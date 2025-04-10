@@ -4,7 +4,7 @@ export interface Product {
   name: string;
   image: string;
   price: number;
-  min_qty: number;
+  min_qty?: number;
   description?: string | null;
 
   DiscPrice?: number;

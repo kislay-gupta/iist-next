@@ -9,7 +9,8 @@ import Image from "next/image";
 import { useState } from "react";
 import axios from "axios";
 import useLoader from "@/hooks/use-loader";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
+
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -20,7 +21,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const handleClick = () => {
-    toast.info("Coming soon");
+    toast("Coming soon");
   };
   const handleLogin = async () => {
     const formData = new FormData();
@@ -51,10 +52,10 @@ export default function LoginForm() {
           router.replace("/onboarding");
         }
       } else {
-        toast.warning(response.data.text);
+        toast.error(response.data.text);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Something went wrong");
     } finally {
       stopLoading();

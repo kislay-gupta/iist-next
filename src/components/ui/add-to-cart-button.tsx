@@ -2,16 +2,20 @@
 
 import * as React from "react";
 import { ShoppingCart } from "lucide-react";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
+
 import { Button } from "./button";
-import { Product } from "@/types/product";
 import axios from "axios";
 import Cookie from "universal-cookie";
 import { useRefreshCart } from "@/store/use-refresh-cart";
+import { useLoginModal } from "@/store/use-login-popup-store";
 
 interface AddToCartButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  product: Product;
+  product: {
+    sno: number;
+    name: string;
+  };
   variant?:
     | "default"
     | "outline"
@@ -36,6 +40,7 @@ export function AddToCartButton({
 }: AddToCartButtonProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const { state, toggleState } = useRefreshCart();
+  const { onOpen } = useLoginModal();
   const cookie = new Cookie();
   const handleAddToCart = async () => {
     try {
@@ -57,7 +62,8 @@ export function AddToCartButton({
       toggleState(state);
       onAddToCart?.();
     } catch (error) {
-      toast.error("Failed to add item to cart");
+      toast.error("Please login to add items to cart");
+      onOpen();
       console.error(error);
     } finally {
       setIsAdding(false);

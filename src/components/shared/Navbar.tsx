@@ -24,11 +24,17 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import useAuth from "@/hooks/use-auth";
-import { useCart } from "@/hooks/use-cart";
+import {
+  useRemoveFromCart,
+  useClearCart,
+  useRemoveItemFromCart,
+} from "@/hooks/use-cart";
 import { Badge } from "@/components/ui/badge";
 import axios from "axios";
 import Cookie from "universal-cookie";
 import { useRefreshCart } from "@/store/use-refresh-cart";
+import { useLoginModal } from "@/store/use-login-popup-store";
+import { AddToCartButton } from "../ui/add-to-cart-button";
 
 interface ProductDetails {
   name: string;
@@ -65,15 +71,12 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthorized } = useAuth();
-  const { hydrateCart } = useCart();
+  const { removeFromCart } = useRemoveFromCart();
+  const { clearCart } = useClearCart();
+  const { removeItemFromCart } = useRemoveItemFromCart();
   const { state } = useRefreshCart();
-  const {
-    items,
-    totalItems,
 
-    clearCart,
-  } = useCart((state) => state);
-
+  const { onOpen } = useLoginModal();
   const handleNavigate = (to: string) => {
     setIsSheetOpen(false);
     router.push(to);
@@ -81,6 +84,11 @@ const Navbar = () => {
   const cookie = new Cookie();
   const handleGetCartItems = async () => {
     const user_id = cookie.get("user_id");
+    if (!user_id) {
+      console.log(user_id);
+      onOpen();
+      return;
+    }
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}order_cart?req_data=getCartbyUser&userID=${user_id}`,
@@ -89,6 +97,7 @@ const Navbar = () => {
       console.log(cartItem);
     } catch (error) {
       console.error("Error fetching cart items:", error);
+      setCartItem(null);
     }
   };
   useEffect(() => {
@@ -96,7 +105,6 @@ const Navbar = () => {
       setIsLoading(true);
       handleGetCartItems();
 
-      await hydrateCart();
       setIsLoading(false);
     };
     loadCart();
@@ -231,16 +239,33 @@ const Navbar = () => {
                                 ₹<span className="mx-2">{item.totalPrice}</span>
                               </div>
                               <div className="mt-2 flex items-center">
-                                <button className="rounded-md px-2 py-1 hover:bg-gray-100">
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="rounded-md px-2 py-1 hover:bg-gray-100"
+                                  onClick={() => removeItemFromCart(item.sno)}
+                                >
                                   -
-                                </button>
+                                </Button>
                                 <span className="mx-2">{item.quantity}</span>
-                                <button className="rounded-md px-2 py-1 hover:bg-gray-100">
+                                <AddToCartButton
+                                  product={{
+                                    sno: item.product_id,
+                                    name: item.productDetails.name,
+                                  }}
+                                  variant="ghost"
+                                  size="icon"
+                                  showIcon={false}
+                                  className="rounded-md px-2 py-1 hover:bg-gray-100"
+                                >
                                   +
-                                </button>
+                                </AddToCartButton>
                               </div>
                             </div>
-                            <button onClick={() => {}} className="text-red-500">
+                            <button
+                              onClick={() => removeFromCart(item.sno)}
+                              className="text-red-500"
+                            >
                               Remove
                             </button>
                           </div>
@@ -262,7 +287,10 @@ const Navbar = () => {
                             Checkout
                           </Button>
                           <Button
-                            onClick={clearCart}
+                            onClick={() => {
+                              clearCart();
+                              setIsSheetOpen(false);
+                            }}
                             variant="destructive"
                             className="w-full"
                           >
@@ -318,12 +346,12 @@ const Navbar = () => {
           >
             <div className="relative">
               <ShoppingBag className="h-6 w-6" />
-              {totalItems > 0 && (
+              {cartItem && (
                 <Badge
                   variant="secondary"
                   className="absolute -right-3 -top-2 h-5 w-5 justify-center rounded-full p-0"
                 >
-                  {items.length}
+                  {cartItem.length}
                 </Badge>
               )}
             </div>

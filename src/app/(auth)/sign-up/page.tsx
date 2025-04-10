@@ -6,11 +6,11 @@ import Link from "next/link";
 import React from "react";
 import loginform from "@/assets/logobg.jpg";
 import Image from "next/image";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 const Page = () => {
   const handleClick = () => {
-    toast.info("Coming soon");
+    toast.error("Coming soon");
   };
   return (
     <>

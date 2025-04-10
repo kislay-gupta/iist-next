@@ -1,154 +1,93 @@
-import { create } from "zustand";
-import { Product } from "../types/product";
+import { useRefreshCart } from "@/store/use-refresh-cart";
+import axios from "axios";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
-interface CartItem {
-  product: Product;
-  quantity: number;
-}
+import Cookies from "universal-cookie";
 
-interface CartStore {
-  items: CartItem[];
-  totalItems: number;
-  totalPrice: number;
-  addItem: (product: Product) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
-  clearCart: () => void;
-  hydrateCart: () => void;
-}
+export const useRemoveFromCart = () => {
+  const { state, toggleState } = useRefreshCart();
 
-const saveCartToStorage = (
-  state: Pick<CartStore, "items" | "totalItems" | "totalPrice">
-) => {
-  try {
-    localStorage.setItem("cart", JSON.stringify(state));
-  } catch (error) {
-    console.error("Error saving cart:", error);
-  }
-};
-
-export const useCart = create<CartStore>((set) => ({
-  items: [],
-  totalItems: 0,
-  totalPrice: 0,
-
-  hydrateCart: () => {
+  const [loading, setLoading] = useState(false);
+  const removeFromCart = async (productId: number) => {
+    const formData = new FormData();
+    formData.append("req_data", "RemCartitem");
+    formData.append("itemID", productId.toLocaleString());
+    setLoading(true);
     try {
-      const savedCart = localStorage.getItem("cart");
-      if (savedCart) {
-        const parsedCart = JSON.parse(savedCart);
-        set(parsedCart);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}order_cart`,
+        formData
+      );
+      if (response.data.status) {
+        toggleState(state);
+        toast.success(response.data.text);
+        setLoading(false);
       }
     } catch (error) {
-      console.error("Error loading cart:", error);
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-  },
+  };
+  return { removeFromCart, loading };
+};
 
-  addItem: (product) =>
-    set((state) => {
-      const existingItem = state.items.find(
-        (item) => item.product._id === product._id
+export const useClearCart = () => {
+  const { state, toggleState } = useRefreshCart();
+
+  const [loading, setLoading] = useState(false);
+  const cookie = new Cookies();
+  const user_id = cookie.get("user_id");
+  const clearCart = async () => {
+    const formData = new FormData();
+    formData.append("req_data", "clearCart");
+    formData.append("userID", user_id);
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}order_cart`,
+        formData
       );
-      let newState;
-
-      if (existingItem) {
-        const updatedItems = state.items.map((item) =>
-          item.product._id === product._id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-        const totalPrice = updatedItems.reduce(
-          (sum, item) => sum + item.product.price * item.quantity,
-          0
-        );
-        newState = {
-          items: updatedItems,
-          totalItems: state.totalItems + 1,
-          totalPrice,
-        };
-      } else {
-        const newItems = [
-          ...state.items,
-          { product, quantity: product.min_qty },
-        ];
-        const totalPrice = newItems.reduce(
-          (sum, item) => sum + item.product.price * item.quantity,
-          0
-        );
-        newState = {
-          items: newItems,
-          totalItems: state.totalItems + product.min_qty,
-          totalPrice,
-        };
+      if (response.data.status) {
+        toggleState(state);
+        toast.success(response.data.text);
+        setLoading(false);
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { clearCart, loading };
+};
 
-      saveCartToStorage(newState);
-      return newState;
-    }),
+export const useRemoveItemFromCart = () => {
+  const { state, toggleState } = useRefreshCart();
+  const [loading, setLoading] = useState(false);
 
-  updateQuantity: (productId, quantity) =>
-    set((state) => {
-      const item = state.items.find((item) => item.product._id === productId);
-      let newState;
-
-      if (!item || quantity < item.product.min_qty) {
-        const updatedItems = state.items.filter(
-          (item) => item.product._id !== productId
-        );
-        const totalPrice = updatedItems.reduce(
-          (sum, item) => sum + item.product.price * item.quantity,
-          0
-        );
-        newState = {
-          items: updatedItems,
-          totalItems: updatedItems.reduce(
-            (sum, item) => sum + item.quantity,
-            0
-          ),
-          totalPrice,
-        };
-      } else {
-        const updatedItems = state.items.map((item) =>
-          item.product._id === productId ? { ...item, quantity } : item
-        );
-        const totalPrice = updatedItems.reduce(
-          (sum, item) => sum + item.product.price * item.quantity,
-          0
-        );
-        newState = {
-          items: updatedItems,
-          totalItems: updatedItems.reduce(
-            (sum, item) => sum + item.quantity,
-            0
-          ),
-          totalPrice,
-        };
-      }
-
-      saveCartToStorage(newState);
-      return newState;
-    }),
-
-  removeItem: (productId) =>
-    set((state) => {
-      const updatedItems = state.items.filter(
-        (item) => item.product._id !== productId
+  const removeItemFromCart = async (productId: number) => {
+    const formData = new FormData();
+    formData.append("req_data", "decCartitem");
+    formData.append("itemID", productId.toString());
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}order_cart`,
+        formData
       );
-      const newState = {
-        items: updatedItems,
-        totalItems: updatedItems.reduce((sum, item) => sum + item.quantity, 0),
-        totalPrice: updatedItems.reduce(
-          (sum, item) => sum + item.product.price * item.quantity,
-          0
-        ),
-      };
+      if (response.data.status) {
+        toggleState(state);
+        toast.success(response.data.text);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      saveCartToStorage(newState);
-      return newState;
-    }),
-
-  clearCart: () => {
-    localStorage.removeItem("cart");
-    return set({ items: [], totalItems: 0, totalPrice: 0 });
-  },
-}));
+  return { removeItemFromCart, loading };
+};

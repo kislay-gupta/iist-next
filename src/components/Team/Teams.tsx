@@ -33,7 +33,7 @@ const Teams = () => {
       );
       setTeamMember(response.data.data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       stopLoading();
     }

@@ -46,7 +46,6 @@ async function getProducts(category: string) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-
     return data.data;
   } catch (error) {
     if (error instanceof Error) {
@@ -93,7 +92,6 @@ export default async function Page({ params }: PageParams) {
             results
           </p>
         </div>
-
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {products.length > 0 ? (
             products.map((product: Project) => (

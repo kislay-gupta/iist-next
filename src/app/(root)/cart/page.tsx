@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCart } from "@/hooks/use-cart";
+import { useRemoveFromCart, useRemoveItemFromCart } from "@/hooks/use-cart";
 import {
   Card,
   CardContent,
@@ -28,6 +28,8 @@ import { useRouter } from "next/navigation";
 import Cookies from "universal-cookie";
 import { CartItem } from "@/types/product";
 import axios from "axios";
+import { useRefreshCart } from "@/store/use-refresh-cart";
+import { AddToCartButton } from "@/components/ui/add-to-cart-button";
 
 const CartItemSkeleton = () => (
   <div className="flex flex-col md:flex-row gap-6 py-6 border-b border-gray-100 last:border-0">
@@ -73,8 +75,9 @@ const EmptyCartState = () => (
 );
 
 export default function CartPage() {
-  const {} = useCart();
-
+  const { removeFromCart } = useRemoveFromCart();
+  const { removeItemFromCart } = useRemoveItemFromCart();
+  const { state } = useRefreshCart();
   const [isLoading, setIsLoading] = useState(true);
   const [cartItem, setCartItem] = useState<CartItem[] | null>([]);
   const cookie = new Cookies();
@@ -88,6 +91,7 @@ export default function CartPage() {
       setCartItem(res.data.data);
     } catch (error) {
       console.error("Error fetching cart items:", error);
+      setCartItem([]);
     }
   };
 
@@ -98,7 +102,7 @@ export default function CartPage() {
       setIsLoading(false);
     };
     loadCart();
-  }, []);
+  }, [state]);
   if (!isLoading && (!cartItem || cartItem.length === 0)) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8">
@@ -177,27 +181,39 @@ export default function CartPage() {
                           </p>
                         </div>
                         <div className="flex items-center gap-6">
-                          <Select
-                            value={String(item.quantity)}
-                            onValueChange={(value) =>
-                              console.log("Selected quantity:", value)
-                            }
-                          >
-                            <SelectTrigger className="w-24 bg-gray-50 border-gray-200">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[...Array(10)].map((_, i) => (
-                                <SelectItem key={i + 1} value={String(i + 1)}>
-                                  {String(i + 1).padStart(2, "0")}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <div className="flex items-center">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="border rounded-md py-2 px-4 mr-2"
+                              onClick={() => {
+                                removeItemFromCart(item.sno);
+                              }}
+                            >
+                              -
+                            </Button>
+                            <span className="text-center w-8">
+                              {item.quantity}
+                            </span>
+                            <AddToCartButton
+                              product={{
+                                sno: item.product_id,
+                                name: item.productDetails.name,
+                              }}
+                              className="border rounded-md py-2 px-4 ml-2"
+                              showIcon={false}
+                              variant="ghost"
+                              size="icon"
+                            >
+                              +
+                            </AddToCartButton>
+                          </div>
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => {}}
+                            onClick={() => {
+                              removeFromCart(item.sno);
+                            }}
                             className="text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
                           >
                             <Trash2 className="h-5 w-5" />
