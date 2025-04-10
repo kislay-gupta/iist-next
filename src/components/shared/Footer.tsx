@@ -13,11 +13,11 @@ import Image from "next/image";
 import logo from "@/assets/logobg.jpg";
 export default function Footer() {
   return (
-    <footer className="bg-black text-white py-12">
+    <footer className="bg-black py-12 text-white">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 lg:gap-8">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
           {/* Logo and Social Section */}
-          <div className="col-span-2 md:col-span-1 flex flex-col justify-center items-center">
+          <div className="col-span-2 flex flex-col items-center justify-center md:col-span-1">
             <Image
               src={logo}
               alt="Logo"
@@ -25,30 +25,30 @@ export default function Footer() {
               height={150}
               className="mb-4"
             />
-            <p className="text-gray-300 text-center lg:text-start font-normal text-sm leading-none mb-6">
+            <p className="mb-6 text-center text-sm font-normal leading-none text-gray-300 lg:text-start">
               Stay connected with us! Follow and subscribe to our social media
               platforms for regular updates on learning new skills. Happy
               Learning!
             </p>
             <div className="flex gap-4">
               <Link href="#" className="hover:text-orange-500">
-                <Facebook className="w-6 h-6" />
+                <Facebook className="h-6 w-6" />
               </Link>
               <Link href="#" className="hover:text-orange-500">
-                <Linkedin className="w-6 h-6" />
+                <Linkedin className="h-6 w-6" />
               </Link>
               <Link href="#" className="hover:text-orange-500">
-                <Instagram className="w-6 h-6" />
+                <Instagram className="h-6 w-6" />
               </Link>
               <Link href="#" className="hover:text-orange-500">
-                <Twitter className="w-6 h-6" />
+                <Twitter className="h-6 w-6" />
               </Link>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-orange-500 font-semibold text-lg mb-4">
+            <h3 className="mb-4 text-lg font-semibold text-orange-500">
               Quick Links
             </h3>
             <ul className="space-y-2">
@@ -72,7 +72,7 @@ export default function Footer() {
 
           {/* Community */}
           <div>
-            <h3 className="text-orange-500 font-semibold text-lg mb-4">
+            <h3 className="mb-4 text-lg font-semibold text-orange-500">
               Community
             </h3>
             <ul className="space-y-2">
@@ -102,7 +102,7 @@ export default function Footer() {
           {/* More & Contacts */}
           <div>
             <div className="lg:mb-8">
-              <h3 className="text-orange-500 font-semibold text-lg mb-4">
+              <h3 className="mb-4 text-lg font-semibold text-orange-500">
                 More
               </h3>
               <ul className="space-y-2">
@@ -117,7 +117,11 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-orange-500">
+                  <Link
+                    href="https://admin.iistbihar.com/"
+                    target="_blank"
+                    className="hover:text-orange-500"
+                  >
                     Management
                   </Link>
                 </li>
@@ -130,12 +134,12 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <h3 className="text-orange-500 font-semibold text-lg mb-4">
+            <h3 className="mb-4 text-lg font-semibold text-orange-500">
               Contacts
             </h3>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Phone className="w-5 h-5 text-orange-500" />
+                <Phone className="h-5 w-5 text-orange-500" />
                 <Link
                   href="tel:+917295890160"
                   className="hover:text-orange-500"
@@ -144,7 +148,7 @@ export default function Footer() {
                 </Link>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-5 h-5 text-orange-500" />
+                <Mail className="h-5 w-5 text-orange-500" />
                 <Link
                   href="mailto:support@iistbihar.com"
                   className="hover:text-orange-500"
@@ -152,11 +156,11 @@ export default function Footer() {
                   support@iistbihar.com
                 </Link>
               </div>
-              <div className="flex gap-2 mt-4">
+              <div className="mt-4 flex gap-2">
                 <Input
                   type="email"
                   placeholder="Enter Mail"
-                  className="bg-transparent border-gray-700"
+                  className="border-gray-700 bg-transparent"
                 />
                 <Button variant="destructive">
                   <svg
@@ -169,7 +173,7 @@ export default function Footer() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5"
+                    className="h-5 w-5"
                   >
                     <polyline points="9 18 15 12 9 6" />
                   </svg>
@@ -180,7 +184,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-gray-800 mb-8 lg:mb-0 mt-6 lg:pt-4 text-center text-sm text-gray-400">
+        <div className="mb-8 mt-6 border-t border-gray-800 text-center text-sm text-gray-400 lg:mb-0 lg:pt-4">
           <p>
             COPYRIGHT IIST BIHAR. All rights reserved | Designed & Maintained BY{" "}
             <Link
