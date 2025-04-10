@@ -18,7 +18,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 import { Loader2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 export default function LoginPop() {
   const { isLoading, startLoading, stopLoading } = useLoader();

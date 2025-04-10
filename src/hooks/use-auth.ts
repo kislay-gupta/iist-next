@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import axios from "axios";
 
 // Types
@@ -18,10 +18,12 @@ const config: AuthConfig = {
 
 const useAuth = () => {
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const validateSession = async () => {
+      setIsLoading(true);
       try {
         const getCookie = (name: string) => {
           const value = `; ${document.cookie}`;
@@ -54,6 +56,8 @@ const useAuth = () => {
       } catch (error) {
         console.error("Authorization failed:", error);
         setIsAuthorized(false);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -69,7 +73,7 @@ const useAuth = () => {
     return true;
   }, [isAuthorized, router]);
 
-  return { isAuthorized, requireAuth };
+  return { isAuthorized, requireAuth, isLoading };
 };
 
 export default useAuth;

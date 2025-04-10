@@ -24,7 +24,7 @@ import { Separator } from "@/components/ui/separator";
 import { ShoppingCart, ArrowLeft, Trash2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ConfirmModal } from "@/components/modal";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import Cookies from "universal-cookie";
 import { CartItem } from "@/types/product";
 import axios from "axios";

@@ -3,7 +3,7 @@ import { X, CircuitBoardIcon as Circuit, Loader2 } from "lucide-react";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useCategory } from "@/hooks/get-category";
 
 export default function ProjectsNav() {
@@ -17,19 +17,19 @@ export default function ProjectsNav() {
 
   // Desktop sidebar
   const SidebarContent = () => (
-    <div className="h-screen shadow-lg sm:hidden flex-col bg-[#f5f5dc]">
-      <div className="bg-blue-500 p-4 sticky top-0 z-10 flex justify-between items-center">
+    <div className="h-screen flex-col bg-[#f5f5dc] shadow-lg sm:hidden">
+      <div className="sticky top-0 z-10 flex items-center justify-between bg-blue-500 p-4">
         <h3 className="text-white">PROJECTS CATEGORIES</h3>
         <button
-          className="lg:hidden text-white"
+          className="text-white lg:hidden"
           onClick={() => setIsOpen(false)}
         >
           <X className="h-6 w-6" />
         </button>
       </div>
-      <div className="overflow-y-auto flex-1">
+      <div className="flex-1 overflow-y-auto">
         {isLoading ? (
-          <div className="flex justify-center items-center h-full">
+          <div className="flex h-full items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin" />
           </div>
         ) : (
@@ -66,7 +66,7 @@ export default function ProjectsNav() {
         {/* Trigger button */}
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-20 right-4 z-30 bg-blue-500 text-white p-3 rounded-full shadow-lg"
+          className="fixed bottom-20 right-4 z-30 rounded-full bg-blue-500 p-3 text-white shadow-lg"
         >
           <Circuit className="h-6 w-6" />
         </button>
@@ -74,14 +74,14 @@ export default function ProjectsNav() {
         {/* Overlay */}
         {isOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-40"
+            className="fixed inset-0 z-40 bg-black/50"
             onClick={() => setIsOpen(false)}
           />
         )}
 
         {/* Sheet */}
         <div
-          className={`fixed bottom-0 left-0 right-0 z-50 bg-[#f5f5dc] rounded-t-[20px] transition-transform duration-300 transform ${
+          className={`fixed bottom-0 left-0 right-0 z-50 transform rounded-t-[20px] bg-[#f5f5dc] transition-transform duration-300 ${
             isOpen ? "translate-y-0" : "translate-y-full"
           }`}
           style={{ maxHeight: "80vh" }}

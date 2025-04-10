@@ -12,7 +12,7 @@ import useLoader from "@/hooks/use-loader";
 import toast from "react-hot-toast";
 
 import { Loader2, Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 export default function LoginForm() {
   const { isLoading, startLoading, stopLoading } = useLoader();

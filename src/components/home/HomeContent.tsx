@@ -29,8 +29,6 @@ export default function HomeContent() {
     );
   }
 
-
-
   return (
     <>
       <CustomMarquee />
@@ -58,9 +56,12 @@ export default function HomeContent() {
                       isLoading={isLoading}
                     />
                   ))}
-                </AnimatedGrid>) : (
+                </AnimatedGrid>
+              ) : (
                 <>
-                  <div className="text-center text-2xl font-bold">No categories found</div>
+                  <div className="text-center text-2xl font-bold">
+                    No categories found
+                  </div>
                 </>
               )}
             </div>
@@ -89,6 +90,7 @@ export default function HomeContent() {
                   <AnimatedGrid>
                     {categories?.data?.map((category: Category) => (
                       <ProjectCard
+                        category="blog"
                         key={category.sno}
                         image={category.imageLink}
                         slug={category.slug}
@@ -96,9 +98,12 @@ export default function HomeContent() {
                         isLoading={isLoading}
                       />
                     ))}
-                  </AnimatedGrid>) : (
+                  </AnimatedGrid>
+                ) : (
                   <>
-                    <div className="text-center text-2xl font-bold">No categories found</div>
+                    <div className="text-center text-2xl font-bold">
+                      No categories found
+                    </div>
                   </>
                 )}
               </div>

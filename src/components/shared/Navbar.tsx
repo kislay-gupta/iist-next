@@ -70,7 +70,7 @@ const Navbar = () => {
   const [cartItem, setCartItem] = useState<CartItem[] | null>([]);
   const router = useRouter();
   const pathname = usePathname();
-  const { isAuthorized } = useAuth();
+  const { isLoading: AuthLoading, isAuthorized } = useAuth();
   const { removeFromCart } = useRemoveFromCart();
   const { clearCart } = useClearCart();
   const { removeItemFromCart } = useRemoveItemFromCart();
@@ -162,7 +162,13 @@ const Navbar = () => {
 
                     <Button variant="secondary" asChild>
                       <Link href={isAuthorized ? "/dashboard" : "/login"}>
-                        {isAuthorized ? "Dashboard" : "Log In"}
+                        {AuthLoading ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : isAuthorized ? (
+                          "Dashboard"
+                        ) : (
+                          "Log In"
+                        )}
                       </Link>
                     </Button>
                   </div>
