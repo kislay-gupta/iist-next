@@ -28,21 +28,49 @@ import { useCart } from "@/hooks/use-cart";
 import { Badge } from "@/components/ui/badge";
 import axios from "axios";
 import Cookie from "universal-cookie";
-import { Product } from "@/types/product";
+import { useRefreshCart } from "@/store/use-refresh-cart";
+
+interface ProductDetails {
+  name: string;
+  slug: string;
+  image: string;
+  imageLink: string;
+  pdf: string;
+  pdfLink: string;
+  videoLink: string;
+  CatID: number;
+  price: string;
+  DiscPrice: string;
+  Description: string;
+  created: string;
+}
+
+interface CartItem {
+  sno: number;
+  userID: number;
+  product_type: string;
+  product_id: number;
+  quantity: number;
+  checkout: number;
+  checkout_price: number | null;
+  created_at: string;
+  totalPrice: number;
+  productDetails: ProductDetails;
+}
+
 const Navbar = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [cartItem, setCartItem] = useState<Product[] | null>([]);
+  const [cartItem, setCartItem] = useState<CartItem[] | null>([]);
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthorized } = useAuth();
   const { hydrateCart } = useCart();
+  const { state } = useRefreshCart();
   const {
     items,
-    removeItem,
-    updateQuantity,
     totalItems,
-    totalPrice,
+
     clearCart,
   } = useCart((state) => state);
 
@@ -67,11 +95,12 @@ const Navbar = () => {
     const loadCart = async () => {
       setIsLoading(true);
       handleGetCartItems();
+
       await hydrateCart();
       setIsLoading(false);
     };
     loadCart();
-  }, [isSheetOpen]);
+  }, [isSheetOpen, state]);
 
   const handleCheckout = () => {
     router.push("/cart");
@@ -160,12 +189,12 @@ const Navbar = () => {
                   <SheetTrigger asChild>
                     <Button className="relative">
                       <ShoppingCartIcon className="h-5 w-5" />
-                      {totalItems > 0 && (
+                      {cartItem && (
                         <Badge
                           variant="secondary"
                           className="absolute -right-2 -top-2 h-5 w-5 justify-center rounded-full p-0"
                         >
-                          {items.length}
+                          {cartItem.length}
                         </Badge>
                       )}
                     </Button>
@@ -178,64 +207,52 @@ const Navbar = () => {
                       <div className="flex items-center justify-center py-8">
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
                       </div>
-                    ) : totalItems > 0 ? (
+                    ) : cartItem ? (
                       <div className="mt-4">
-                        {items.map((item) => (
+                        {cartItem.map((item) => (
                           <div
-                            key={item.product._id}
+                            key={item.sno}
                             className="flex items-center justify-between border-b p-2"
                           >
                             <Image
-                              src={item.product.image}
-                              alt={item.product.name}
+                              src={item.productDetails.imageLink}
+                              alt={item.productDetails.name}
                               width={50}
                               height={50}
                               className="object-cover"
                             />
                             <div className="ml-4 flex-1">
                               <div className="font-semibold">
-                                {item.product.name}
+                                {item.productDetails.name}
                               </div>
                               <div className="text-gray-500">
-                                ₹{item.product.price}
+                                ₹{item.productDetails.DiscPrice} x{" "}
+                                <span className="mx-2">{item.quantity}</span> =
+                                ₹<span className="mx-2">{item.totalPrice}</span>
                               </div>
                               <div className="mt-2 flex items-center">
-                                <button
-                                  className="rounded-md px-2 py-1 hover:bg-gray-100"
-                                  onClick={() =>
-                                    updateQuantity(
-                                      item.product._id,
-                                      item.quantity - 1,
-                                    )
-                                  }
-                                >
+                                <button className="rounded-md px-2 py-1 hover:bg-gray-100">
                                   -
                                 </button>
                                 <span className="mx-2">{item.quantity}</span>
-                                <button
-                                  className="rounded-md px-2 py-1 hover:bg-gray-100"
-                                  onClick={() =>
-                                    updateQuantity(
-                                      item.product._id,
-                                      item.quantity + 1,
-                                    )
-                                  }
-                                >
+                                <button className="rounded-md px-2 py-1 hover:bg-gray-100">
                                   +
                                 </button>
                               </div>
                             </div>
-                            <button
-                              onClick={() => removeItem(item.product._id)}
-                              className="text-red-500"
-                            >
+                            <button onClick={() => {}} className="text-red-500">
                               Remove
                             </button>
                           </div>
                         ))}
                         <div className="flex justify-between p-4">
                           <span className="font-bold">Total:</span>
-                          <span className="font-bold">₹{totalPrice}</span>
+                          <span className="font-bold">
+                            ₹
+                            {cartItem
+                              .map((items) => items.totalPrice + 0)
+                              .reduce((a, b) => a + b, 0)}
+                          </span>
                         </div>
                         <div className="flex flex-col gap-2 px-4">
                           <Button

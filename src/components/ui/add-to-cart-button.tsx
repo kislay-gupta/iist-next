@@ -7,6 +7,7 @@ import { Button } from "./button";
 import { Product } from "@/types/product";
 import axios from "axios";
 import Cookie from "universal-cookie";
+import { useRefreshCart } from "@/store/use-refresh-cart";
 
 interface AddToCartButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -34,6 +35,7 @@ export function AddToCartButton({
   ...props
 }: AddToCartButtonProps) {
   const [isAdding, setIsAdding] = React.useState(false);
+  const { state, toggleState } = useRefreshCart();
   const cookie = new Cookie();
   const handleAddToCart = async () => {
     try {
@@ -52,6 +54,7 @@ export function AddToCartButton({
       console.log(res.data);
       //   addItem(product);
       toast.success(`${product.name} added to cart`);
+      toggleState(state);
       onAddToCart?.();
     } catch (error) {
       toast.error("Failed to add item to cart");

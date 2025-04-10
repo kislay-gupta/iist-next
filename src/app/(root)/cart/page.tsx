@@ -25,6 +25,10 @@ import { ShoppingCart, ArrowLeft, Trash2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ConfirmModal } from "@/components/modal";
 import { useRouter } from "next/navigation";
+import Cookies from "universal-cookie";
+import { CartItem } from "@/types/product";
+import axios from "axios";
+
 const CartItemSkeleton = () => (
   <div className="flex flex-col md:flex-row gap-6 py-6 border-b border-gray-100 last:border-0">
     <div className="md:w-1/4">
@@ -69,26 +73,33 @@ const EmptyCartState = () => (
 );
 
 export default function CartPage() {
-  const {
-    items,
-    totalItems,
-    totalPrice,
-    updateQuantity,
-    removeItem,
-    hydrateCart,
-  } = useCart();
+  const {} = useCart();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [cartItem, setCartItem] = useState<CartItem[] | null>([]);
+  const cookie = new Cookies();
+  const router = useRouter();
+  const handleGetCartItems = async () => {
+    const user_id = cookie.get("user_id");
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}order_cart?req_data=getCartbyUser&userID=${user_id}`
+      );
+      setCartItem(res.data.data);
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+    }
+  };
 
   useEffect(() => {
     const loadCart = async () => {
-      await hydrateCart();
+      setIsLoading(true);
+      await handleGetCartItems();
       setIsLoading(false);
     };
     loadCart();
-  }, [hydrateCart]);
-  const router = useRouter();
-  if (!isLoading && items.length === 0) {
+  }, []);
+  if (!isLoading && (!cartItem || cartItem.length === 0)) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -122,7 +133,9 @@ export default function CartPage() {
                 {isLoading ? (
                   <Skeleton className="h-4 w-16" />
                 ) : (
-                  `${totalItems} ${totalItems === 1 ? "Item" : "Items"}`
+                  `${cartItem?.length} ${
+                    cartItem?.length === 1 ? "Item" : "Items"
+                  }`
                 )}
               </span>
             </div>
@@ -136,16 +149,17 @@ export default function CartPage() {
                   <CartItemSkeleton />
                 </>
               ) : (
-                items.map((item) => (
+                cartItem &&
+                cartItem.map((item) => (
                   <div
-                    key={item.product._id}
+                    key={item.sno}
                     className="flex flex-col md:flex-row gap-6 py-6 border-b border-gray-100 last:border-0"
                   >
                     <div className="md:w-1/4">
                       <div className="relative rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow">
                         <Image
-                          src={item.product.image}
-                          alt={item.product.name}
+                          src={item.productDetails.imageLink}
+                          alt={item.productDetails.name}
                           width={500}
                           height={500}
                           className="object-cover w-full h-[200px] md:h-[180px] transform hover:scale-105 transition-transform duration-300"
@@ -156,17 +170,17 @@ export default function CartPage() {
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="space-y-1">
                           <h3 className="text-xl font-semibold text-gray-900 hover:text-blue-600 transition-colors">
-                            {item.product.name}
+                            {item.productDetails.name}
                           </h3>
                           <p className="text-sm text-gray-500 font-mono">
-                            {item.product._id}
+                            {item.product_id}
                           </p>
                         </div>
                         <div className="flex items-center gap-6">
                           <Select
                             value={String(item.quantity)}
                             onValueChange={(value) =>
-                              updateQuantity(item.product._id, parseInt(value))
+                              console.log("Selected quantity:", value)
                             }
                           >
                             <SelectTrigger className="w-24 bg-gray-50 border-gray-200">
@@ -183,7 +197,7 @@ export default function CartPage() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => removeItem(item.product._id)}
+                            onClick={() => {}}
                             className="text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
                           >
                             <Trash2 className="h-5 w-5" />
@@ -192,10 +206,7 @@ export default function CartPage() {
                       </div>
                       <div className="flex justify-end">
                         <p className="text-xl font-semibold text-blue-600">
-                          ₹
-                          {(
-                            item.product.price * item.quantity
-                          ).toLocaleString()}
+                          ₹{Number(item.totalPrice).toLocaleString()}
                         </p>
                       </div>
                     </div>
@@ -229,14 +240,19 @@ export default function CartPage() {
                 {isLoading ? (
                   <Skeleton className="h-4 w-32" />
                 ) : (
-                  `Subtotal (${totalItems} items)`
+                  `Subtotal (${cartItem?.length} items)`
                 )}
               </span>
               <span className="text-lg font-semibold text-gray-900">
                 {isLoading ? (
                   <Skeleton className="h-6 w-24" />
                 ) : (
-                  `₹${totalPrice.toLocaleString()}`
+                  `₹${
+                    cartItem &&
+                    cartItem
+                      .map((items) => items.totalPrice + 0)
+                      .reduce((a, b) => a + b, 0)
+                  }`
                 )}
               </span>
             </div>
@@ -282,7 +298,12 @@ export default function CartPage() {
                 {isLoading ? (
                   <Skeleton className="h-8 w-32" />
                 ) : (
-                  `₹${(totalPrice + 100).toLocaleString()}`
+                  `₹$${
+                    cartItem &&
+                    cartItem
+                      .map((items) => items.totalPrice + 0)
+                      .reduce((a, b) => a + b, 0)
+                  }`
                 )}
               </span>
             </div>

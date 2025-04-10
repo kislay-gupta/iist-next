@@ -42,9 +42,33 @@ export interface ApiResponse<T> {
   message: string;
   data: T;
 }
+
+export interface ProductDetails {
+  name: string;
+  slug: string;
+  image: string;
+  imageLink: string;
+  pdf: string;
+  pdfLink: string;
+  videoLink: string;
+  CatID: number;
+  price: string;
+  DiscPrice: string;
+  Description: string;
+  created: string;
+}
+
 interface CartItem {
-  product: Product;
+  sno: number;
+  userID: number;
+  product_type: string;
+  product_id: number;
   quantity: number;
+  checkout: number;
+  checkout_price: number | null;
+  created_at: string;
+  totalPrice: number;
+  productDetails: ProductDetails;
 }
 
 export type { CartItem };
