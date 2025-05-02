@@ -24,20 +24,24 @@ type MobileTutorialSidebarProps = {
   category: string;
 };
 
-export default function MobileTutorialSidebar({ tutorials, category }: MobileTutorialSidebarProps) {
+export default function MobileTutorialSidebar({
+  tutorials,
+  category,
+}: MobileTutorialSidebarProps) {
   const pathname = usePathname();
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="lg:hidden p-2 hover:bg-gray-100 rounded-md">
+        <button className="rounded-md p-2 hover:bg-gray-100 lg:hidden">
           <Menu className="h-6 w-6" />
         </button>
       </SheetTrigger>
       <SheetContent side="left" className="w-[300px] p-0">
         <SheetHeader className="border-b border-gray-200 bg-[#1e2756] px-3 py-2">
           <SheetTitle className="text-base font-bold text-gray-100">
-            {category} Tutorials
+            {category.charAt(0).toUpperCase() +
+              category.slice(1).replace("-", " ")}
           </SheetTitle>
         </SheetHeader>
         <nav className="px-3 py-4">
@@ -47,10 +51,10 @@ export default function MobileTutorialSidebar({ tutorials, category }: MobileTut
                 key={tutorial.slug}
                 href={`/tutorials/${category}/${tutorial.slug}`}
                 className={cn(
-                  "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                  "block rounded-md px-3 py-2 text-sm font-medium transition-colors",
                   pathname === `/tutorials/${category}/${tutorial.slug}`
                     ? "bg-indigo-50 text-indigo-700"
-                    : "text-gray-700 hover:bg-indigo-50 hover:text-indigo-700"
+                    : "text-gray-700 hover:bg-indigo-50 hover:text-indigo-700",
                 )}
               >
                 {tutorial.title}

@@ -94,6 +94,30 @@ export default function CartPage() {
       setCartItem([]);
     }
   };
+  console.log(cartItem, "cartItem");
+  const handleCheckout = async () => {
+    try {
+      const formData = new FormData();
+      const priceArr: number[] = [];
+      const itemIDs: number[] = [];
+      cartItem?.forEach((item) => {
+        priceArr.push(item.totalPrice);
+        itemIDs.push(item.sno);
+      });
+      formData.append("req_data", "checkoutCart");
+      formData.append("itemIDs", JSON.stringify(itemIDs));
+      formData.append("prices", JSON.stringify(priceArr));
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}order_cart`,
+        formData
+      );
+      console.log(res.data, "checkout response");
+      console.log(formData, "formData");
+      router.replace("/thank-you");
+    } catch (error) {
+      console.error("Error checking out:", error);
+    }
+  };
 
   useEffect(() => {
     const loadCart = async () => {
@@ -314,7 +338,7 @@ export default function CartPage() {
                 {isLoading ? (
                   <Skeleton className="h-8 w-32" />
                 ) : (
-                  `₹$${
+                  `₹${
                     cartItem &&
                     cartItem
                       .map((items) => items.totalPrice + 0)
@@ -327,7 +351,7 @@ export default function CartPage() {
           <CardFooter className="p-6">
             <ConfirmModal
               header="Are you sure you want to proceed with the checkout?"
-              onConfirm={() => router.replace("/thank-you")}
+              onConfirm={() => handleCheckout()}
             >
               <Button
                 size="lg"

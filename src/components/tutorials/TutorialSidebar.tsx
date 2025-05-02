@@ -1,21 +1,21 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from "react";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 type TutorialSidebarProps = {
   tutorials: Tutorial[];
   category: string;
-}
+};
 
 type Tutorial = {
   sno: number;
   title: string;
   slug: string;
   chapters: Chapter[];
-}
+};
 
 type Chapter = {
   sno: number;
@@ -24,36 +24,44 @@ type Chapter = {
   content: string | null;
   pdf: string | null;
   Videolink: string | null;
-}
+};
 
-export default function TutorialSidebar({ tutorials, category }: TutorialSidebarProps) {
+export default function TutorialSidebar({
+  tutorials,
+  category,
+}: TutorialSidebarProps) {
   const [expandedTutorials, setExpandedTutorials] = useState<number[]>([]);
 
   const toggleTutorial = (sno: number) => {
-    setExpandedTutorials(prev =>
-      prev.includes(sno)
-        ? prev.filter(id => id !== sno)
-        : [...prev, sno]
+    setExpandedTutorials((prev) =>
+      prev.includes(sno) ? prev.filter((id) => id !== sno) : [...prev, sno],
     );
   };
 
   return (
-    <nav className="w-64 h-screen overflow-y-auto bg-white border-r p-4">
-      <h2 className="text-xl font-bold mb-4">{category}</h2>
+    <nav className="h-screen w-64 overflow-y-auto border-r bg-white p-4">
+      <h2 className="mb-4 text-xl font-bold">
+        {category.charAt(0).toUpperCase() + category.slice(1).replace("-", " ")}
+      </h2>
+      {tutorials.length === 0 ? (
+        <p className="text-gray-500">No tutorials available</p>
+      ) : null}
       <div className="space-y-2">
         {tutorials.map((tutorial) => (
           <div key={tutorial.slug} className="border-b pb-2">
             <button
               onClick={() => toggleTutorial(tutorial.sno)}
-              className="flex items-center justify-between w-full text-left p-2 hover:bg-gray-100 rounded"
+              className="flex w-full items-center justify-between rounded p-2 text-left hover:bg-gray-100"
             >
               <span className="font-medium">{tutorial.title}</span>
               <motion.div
                 initial={false}
-                animate={{ rotate: expandedTutorials.includes(tutorial.sno) ? 90 : 0 }}
+                animate={{
+                  rotate: expandedTutorials.includes(tutorial.sno) ? 90 : 0,
+                }}
                 transition={{ duration: 0.2 }}
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="h-4 w-4" />
               </motion.div>
             </button>
             <AnimatePresence>
@@ -69,12 +77,18 @@ export default function TutorialSidebar({ tutorials, category }: TutorialSidebar
                     <Link
                       key={chapter.slug}
                       href={`/tutorials/${category}/${tutorial.slug}/${chapter.slug}`}
-                      className="block p-2 text-sm hover:bg-gray-100 rounded"
+                      className="block rounded p-2 text-sm hover:bg-gray-100"
                     >
                       {chapter.title}
-                      {chapter.content && <span className="ml-2 text-blue-500">📝</span>}
-                      {chapter.pdf && <span className="ml-2 text-red-500">📄</span>}
-                      {chapter.Videolink && <span className="ml-2 text-green-500">🎥</span>}
+                      {chapter.content && (
+                        <span className="ml-2 text-blue-500">📝</span>
+                      )}
+                      {chapter.pdf && (
+                        <span className="ml-2 text-red-500">📄</span>
+                      )}
+                      {chapter.Videolink && (
+                        <span className="ml-2 text-green-500">🎥</span>
+                      )}
                     </Link>
                   ))}
                 </motion.div>

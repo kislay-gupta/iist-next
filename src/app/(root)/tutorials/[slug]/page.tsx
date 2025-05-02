@@ -1,3 +1,6 @@
+import EmptySearch from "@/components/shared/EmptySearch";
+import Link from "next/link";
+
 type PageParams = {
   params: Promise<{ slug: string }>;
 };
@@ -52,12 +55,23 @@ async function getTutorialsByCategory(slug: string): Promise<Tutorial[]> {
 export default async function Page({ params }: PageParams) {
   const { slug } = await params;
   const tutorials = await getTutorialsByCategory(slug);
+  if (!tutorials || tutorials.length === 0) {
+    return (
+      <div className="flex items-center flex-col justify-center h-screen">
+        <EmptySearch />
+        <Link href="/tutorials" className="mt-4 text-blue-500 hover:underline">
+          Back to Tutorials
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <main className="container px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-gray-800">
-        {slug.charAt(0).toUpperCase() + slug.slice(1)} Tutorials
+        {slug.charAt(0).toUpperCase() + slug.slice(1).replace("-", " ")}
       </h1>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tutorials.map((tutorial) => (
           <div
