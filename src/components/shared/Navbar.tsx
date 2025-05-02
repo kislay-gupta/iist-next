@@ -66,6 +66,8 @@ interface CartItem {
 
 const Navbar = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isNavSheetOpen, setIsNavSheetOpen] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
   const [cartItem, setCartItem] = useState<CartItem[] | null>([]);
   const router = useRouter();
@@ -78,7 +80,7 @@ const Navbar = () => {
 
   const { onOpen } = useLoginModal();
   const handleNavigate = (to: string) => {
-    setIsSheetOpen(false);
+    setIsNavSheetOpen(false);
     router.push(to);
   };
   const cookie = new Cookie();
@@ -134,7 +136,7 @@ const Navbar = () => {
             </div>
 
             <div className="col-span-2 col-start-11 flex justify-end md:hidden">
-              <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+              <Sheet open={isNavSheetOpen} onOpenChange={setIsNavSheetOpen}>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="icon">
                     <Menu className="h-6 w-6" />
@@ -142,7 +144,7 @@ const Navbar = () => {
                 </SheetTrigger>
                 <SheetContent>
                   <SheetHeader>
-                    <SheetTitle>Menu</SheetTitle>
+                    <SheetTitle>Navigation Menu</SheetTitle>
                   </SheetHeader>
                   <div className="mt-6 flex flex-col gap-4">
                     {menuLink.map((data, index) => (
