@@ -97,22 +97,28 @@ export default function CartPage() {
   console.log(cartItem, "cartItem");
   const handleCheckout = async () => {
     try {
-      const formData = new FormData();
       const priceArr: number[] = [];
       const itemIDs: number[] = [];
       cartItem?.forEach((item) => {
         priceArr.push(item.totalPrice);
         itemIDs.push(item.sno);
       });
-      formData.append("req_data", "checkoutCart");
-      formData.append("itemIDs", JSON.stringify(itemIDs));
-      formData.append("prices", JSON.stringify(priceArr));
+      const payload = {
+        req_data: "checkoutCart",
+        itemIDs,
+        prices: priceArr,
+      };
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}order_cart`,
-        formData
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
       console.log(res.data, "checkout response");
-      console.log(formData, "formData");
+      console.log(payload, "payload");
       router.replace("/thank-you");
     } catch (error) {
       console.error("Error checking out:", error);
