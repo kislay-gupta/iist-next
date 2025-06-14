@@ -41,12 +41,12 @@ export function ProjectCard({
             height={500}
             src={image || ""}
             alt=""
-            className="h-full w-full object-contain"
+            className="h-full w-full rounded-xl p-1 object-contain"
           />
         </div>
         <CardContent className="p-4">
-          <div className=" flex items-center justify-between">
-            <h3 className="font-semibold capitalize text-gray-900">{title}</h3>
+          <div className=" flex items-center justify-center">
+            <h3 className="font-base text-center capitalize text-gray-900">{title}</h3>
           </div>
         </CardContent>
       </Link>
