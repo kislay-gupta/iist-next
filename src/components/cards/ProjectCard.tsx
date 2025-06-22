@@ -19,7 +19,7 @@ export function ProjectCard({
 }: ProjectCardProps) {
   if (isLoading) {
     return (
-      <Card className="group overflow-hidden">
+      <Card className="group  overflow-hidden">
         <CardContent className="p-4">
           <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-gray-100">
             <div className="h-full w-full animate-pulse bg-gray-200" />
@@ -41,12 +41,14 @@ export function ProjectCard({
             height={500}
             src={image || ""}
             alt=""
-            className="h-full w-full rounded-xl p-1 object-contain"
+            className="h-full w-full rounded-xl object-contain p-1"
           />
         </div>
         <CardContent className="p-4">
           <div className=" flex items-center justify-center">
-            <h3 className="font-base text-center capitalize text-gray-900">{title}</h3>
+            <h3 className="font-base text-center capitalize text-gray-900">
+              {title}
+            </h3>
           </div>
         </CardContent>
       </Link>
