@@ -9,8 +9,8 @@ import { Download } from "lucide-react";
 import ClickToCopy from "@/components/project/ClickToCopy";
 import { MoreProject } from "@/components/project/MoreProject";
 import BgCard from "@/components/cards/BgCard";
-import parse from "html-react-parser";
 import { AddToCartButton } from "@/components/ui/add-to-cart-button";
+import ParseHTML from "@/components/shared/ParsedHTML";
 // Define the project data type
 interface ProjectData {
   sno: number;
@@ -260,7 +260,7 @@ export default async function ProjectPage({ params }: PageParams) {
                 <h2 className="text-2xl font-semibold mb-4 font-['Times_New_Roman']">
                   Description
                 </h2>
-                {Description && parse(Description)}
+                {Description && <ParseHTML data={Description} />}
               </BgCard>
             </div>
           </div>

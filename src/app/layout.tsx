@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./prism.css"
 import { Providers } from "@/lib/providers";
 import NextTopLoader from "nextjs-toploader";
 

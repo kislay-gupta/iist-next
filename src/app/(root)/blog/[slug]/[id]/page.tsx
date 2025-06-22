@@ -2,12 +2,12 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import parse from "html-react-parser";
 import ClickToCopy from "@/components/project/ClickToCopy";
 import { BgCard } from "@/components/cards";
 import { MoreProject } from "@/components/project/MoreProject";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import ParseHTML from "@/components/shared/ParsedHTML";
 
 type PageParams = {
   params: Promise<{
@@ -164,7 +164,7 @@ export default async function Page({ params }: PageParams) {
                 Description
               </h2>
               <div className="browser-css">
-                {post.content && parse(post.content)}
+                {post.content && <ParseHTML data={post.content} />}
               </div>
             </BgCard>
           </div>

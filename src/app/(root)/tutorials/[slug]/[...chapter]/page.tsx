@@ -1,8 +1,8 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import parse from "html-react-parser";
 import { BgCard } from "@/components/cards";
 import VideoPreview from "@/components/shared/VideoPreview";
+import ParseHTML from "@/components/shared/ParsedHTML";
 
 // Types for the API response
 interface ChapterData {
@@ -101,7 +101,7 @@ export default async function Page({ params }: PageParams) {
           </div>
 
           {chapterData.data.content && (
-            <div className="browser-css">{parse(chapterData.data.content)}</div>
+            <div className="browser-css">{<ParseHTML data={chapterData.data.content} />}</div>
           )}
 
           {/* PDF viewer */}
