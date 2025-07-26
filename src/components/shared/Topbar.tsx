@@ -22,7 +22,7 @@ export function Topbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-[#1e2756] shadow-lg">
-      <div className="container flex h-12 items-center gap-4 px-4 sm:gap-8">
+      <div className="container justify-center  mx-auto flex h-12 items-center gap-4 px-4 sm:gap-8">
         {/* Social Links */}
         <nav
           className="flex items-center gap-4 sm:gap-6"

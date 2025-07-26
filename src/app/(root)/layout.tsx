@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import {Topbar} from "@/components/shared/Topbar";
+import { Topbar } from "@/components/shared/Topbar";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 
@@ -26,14 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <><main
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-    >
-
+    <main className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <Topbar />
       <Navbar />
-      {children}
+      <div className="min-h-screen">
+        {children}
+      </div>
       <Footer />
-    </main></>
+    </main>
   );
 }

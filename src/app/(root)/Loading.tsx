@@ -1,8 +1,11 @@
+import Loader from '@/components/shared/Loader'
 import React from 'react'
 
 const Loading = () => {
   return (
-    <div>Loading again</div>
+    <div className='h-screen'>
+      <Loader />
+    </div>
   )
 }
 

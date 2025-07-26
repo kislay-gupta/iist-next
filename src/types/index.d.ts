@@ -1,4 +1,5 @@
 import { IconType } from "react-icons";
+
 export interface TopBarLink {
   icons: IconType;
   route: string;
@@ -11,3 +12,6 @@ export interface MenuLink {
   label: string;
   submenu?: MenuLink[]; // Optional submenu of the same structure
 }
+
+// Re-export ideas types for easy access
+export * from "./ideas";

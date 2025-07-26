@@ -14,7 +14,10 @@ export const menuLink: MenuLink[] = [
     route: "/projects",
     label: "Projects",
   },
-
+  {
+    route: "/ideas",
+    label: "Idea",
+  },
   {
     route: "/about",
     label: "About",

@@ -1,3 +1,4 @@
+import ContactForm from "@/components/Forms/ContactForm";
 import Link from "next/link";
 
 const ContactUsPage = () => {
@@ -11,8 +12,9 @@ const ContactUsPage = () => {
         <div className="bg-white p-8 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl">
           <h2 className="text-3xl font-bold mb-8 text-gray-800">
             Send us a message
-          </h2>
 
+          </h2>
+          <ContactForm />
         </div>
 
         {/* Contact Details and Map Section */}
