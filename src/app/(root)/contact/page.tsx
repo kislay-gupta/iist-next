@@ -1,4 +1,4 @@
-import ContactForm from "@/components/Forms/ContactForm";
+import FormContact from "@/components/Forms/FormContact";
 import Link from "next/link";
 
 const ContactUsPage = () => {
@@ -14,7 +14,7 @@ const ContactUsPage = () => {
             Send us a message
 
           </h2>
-          <ContactForm />
+          <FormContact />
         </div>
 
         {/* Contact Details and Map Section */}
