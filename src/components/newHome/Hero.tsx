@@ -41,7 +41,7 @@ const Hero = () => {
           </MotionFade>
           <MotionFade>
             <p className="mb-6 max-w-xl text-justify text-base font-medium text-gray-900 sm:text-lg md:text-xl">
-              Projectovation is a leading project and research platform
+              IIST Bihar is a leading project and research platform
               specializing in Embedded Systems, Robotics, IoT etc.. With a
               strong focus on academic and industrial innovation, we deliver
               cutting-edge, practical solutions for real-world challenges.

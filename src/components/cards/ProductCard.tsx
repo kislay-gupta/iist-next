@@ -39,7 +39,7 @@ export function ProductCard({
 
   return (
     <Card className="group relative w-full overflow-hidden transition-all duration-300 hover:shadow-lg">
-      <Link href={`/projects/${category}/${slug}`}>
+      <Link href={category === "ideas" ? `/ideas/${slug}` : `/projects/${category}/${slug}`}>
         <CardContent className="p-0">
           <div className="relative h-auto w-full overflow-hidden bg-gray-100">
             <Image
