@@ -25,6 +25,7 @@ interface IdeaData {
     image: string;
     imageLink: string;
     created_at: string;
+    hindiDesc: string;
 }
 
 type PageParams = {
@@ -122,8 +123,7 @@ export default async function IdeaPage({ params }: PageParams) {
         );
     }
 
-    const { id, name, imageLink, pdfLink, price, discPrice, description } = idea;
-
+    const { id, name, imageLink, pdfLink, price, discPrice, description, hindiDesc } = idea;
     // Create product object for cart
     const cartProduct = {
         sno: id,
@@ -209,7 +209,7 @@ export default async function IdeaPage({ params }: PageParams) {
                             </div>
 
                             {/* Description */}
-                            <DescriptionComponent description={description} />
+                            <DescriptionComponent description={description} hindiDescription={hindiDesc} />
                             {/* <div className="prose max-w-none">
                                 <h2 className="text-xl font-semibold mb-4">Description</h2>
                                 <div className="text-gray-700">

@@ -3,7 +3,7 @@ import ParseHTML from '@/components/shared/ParsedHTML'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 
-const DescriptionComponent = ({ description }: { description: string }) => {
+const DescriptionComponent = ({ description, hindiDescription }: { description: string, hindiDescription: string }) => {
     const [selectedLanguage, setSelectedLanguage] = React.useState('en')
     return (
         <div className="prose max-w-none">
@@ -21,8 +21,7 @@ const DescriptionComponent = ({ description }: { description: string }) => {
                     <ParseHTML data={description} />
                 ) : (
                     <div>
-                        Hindi translation is coming soon!
-
+                        {hindiDescription ? <ParseHTML data={hindiDescription} /> : <p>No Hindi description available</p>}
                     </div>
                 )}
             </div>

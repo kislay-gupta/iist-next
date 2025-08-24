@@ -12,6 +12,7 @@ import {
   User,
   Menu,
   Home,
+  Lightbulb,
 } from "lucide-react";
 import {
   Sheet,
@@ -36,6 +37,11 @@ const sidebarLinks = [
     title: "Orders",
     href: "/orders",
     icon: ShoppingBag,
+  },
+  {
+    title: "Ideas",
+    href: "/ideas",
+    icon: Lightbulb,
   },
   {
     title: "Tutorials",

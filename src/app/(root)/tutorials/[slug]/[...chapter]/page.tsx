@@ -88,7 +88,7 @@ export default async function Page({ params }: PageParams) {
 
     return (
       <BgCard>
-        <article className="max-w-4xl mx-auto px-4 py-8">
+        <article className="max-w-sm lg:max-w-4xl lg:mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-6">{chapterData.data.title}</h1>
 
           {/* Author and date information */}

@@ -75,7 +75,7 @@ export default async function TutorialLayout({
       <Suspense fallback={<div className="w-64">Loading...</div>}>
         <SidebarContent slug={slug} />
       </Suspense>
-      <div className="flex-1">{children}</div>
+      <div className="lg:flex-1">{children}</div>
     </div>
   );
 }

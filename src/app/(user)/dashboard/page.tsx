@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import { Package, ShoppingBag, User, FileText } from "lucide-react";
+import { Package, ShoppingBag, User, FileText, LightbulbIcon, Clock } from "lucide-react";
 
-const DashboardCard = ({ title, icon, value, href }: { 
+const DashboardCard = ({ title, icon, value, href }: {
   title: string;
   icon: React.ReactNode;
   value: string | number;
@@ -60,10 +60,30 @@ const Page = () => {
           value="24"
           href="/downloads"
         />
+        <div className="lg:col-span-2">
+
+          <DashboardCard
+            title="Buy Idea"
+            icon={<LightbulbIcon className="h-4 w-4 text-muted-foreground" />}
+            value="24"
+            href="/ideas"
+          />
+        </div>
+        <div className="lg:col-span-2">
+
+          <DashboardCard
+            title="Buy Project"
+            icon={<Clock className="h-4 w-4 text-muted-foreground" />}
+            value="24"
+            href="/projects"
+          />
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <div className="col-span-4">
+
+
           <div className="rounded-xl border bg-card">
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="text-2xl font-semibold leading-none tracking-tight">
