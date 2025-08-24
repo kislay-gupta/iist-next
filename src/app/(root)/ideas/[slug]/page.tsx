@@ -7,8 +7,9 @@ import { Download } from "lucide-react";
 import ClickToCopy from "@/components/project/ClickToCopy";
 import { MoreProject } from "@/components/project/MoreProject";
 import { AddToCartButton } from "@/components/ui/add-to-cart-button";
-import ParseHTML from "@/components/shared/ParsedHTML";
+// import ParseHTML from "@/components/shared/ParsedHTML";
 import conf from "@/config/config";
+import DescriptionComponent from "./DescriptionComponent";
 
 // Define the idea data type
 interface IdeaData {
@@ -208,12 +209,13 @@ export default async function IdeaPage({ params }: PageParams) {
                             </div>
 
                             {/* Description */}
-                            <div className="prose max-w-none">
+                            <DescriptionComponent description={description} />
+                            {/* <div className="prose max-w-none">
                                 <h2 className="text-xl font-semibold mb-4">Description</h2>
                                 <div className="text-gray-700">
                                     <ParseHTML data={description} />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

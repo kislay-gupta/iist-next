@@ -1,7 +1,10 @@
-import React from "react";
-import { Package, Eye } from "lucide-react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { Package, Eye, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getCartByUser } from "@/lib/api";
 
 interface Order {
   id: string;
@@ -9,25 +12,14 @@ interface Order {
   status: "completed" | "processing" | "cancelled";
   total: number;
   items: number;
+  cartItems?: Array<{
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+    image?: string;
+  }>;
 }
-
-// Mock data - replace with actual API call
-const orders: Order[] = [
-  {
-    id: "ORD-001",
-    date: "2024-01-15",
-    status: "completed",
-    total: 2999,
-    items: 2,
-  },
-  {
-    id: "ORD-002",
-    date: "2024-01-20",
-    status: "processing",
-    total: 1499,
-    items: 1,
-  },
-];
 
 const getStatusColor = (status: Order["status"]) => {
   switch (status) {
@@ -41,6 +33,75 @@ const getStatusColor = (status: Order["status"]) => {
 };
 
 export default function OrdersPage() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        setIsLoading(true);
+        const userId = 16;
+        const response = await getCartByUser(userId);
+
+        if (response.success && response.data) {
+          const cartOrder: Order = {
+            id: `CART-${Date.now()}`,
+            date: new Date().toISOString().split('T')[0],
+            status: 'processing',
+            total: response.data.total,
+            items: response.data.items.length,
+            cartItems: response.data.items,
+          };
+
+          setOrders([cartOrder]);
+        } else {
+          setError('Failed to load cart data');
+        }
+      } catch (err) {
+        console.error('Error fetching cart:', err);
+        setError('An error occurred while loading your cart');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCartData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto p-6 flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <span className="ml-2">Loading your cart...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto p-6 text-center text-red-600">
+        <p>{error}</p>
+        <Button onClick={() => window.location.reload()} className="mt-4">
+          Retry
+        </Button>
+      </div>
+    );
+  }
+
+  if (orders.length === 0) {
+    return (
+      <div className="container mx-auto p-6 text-center">
+        <Package className="h-12 w-12 mx-auto text-gray-400" />
+        <h3 className="mt-2 text-lg font-medium text-gray-900">No orders found</h3>
+        <p className="mt-1 text-gray-500">Your cart is currently empty.</p>
+        <Button asChild className="mt-4">
+          <Link href="/products">Browse Products</Link>
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto p-6">
       <div className="flex items-center justify-between mb-8">

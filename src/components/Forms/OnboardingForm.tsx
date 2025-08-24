@@ -22,9 +22,11 @@ import {
 } from "@/components/ui/select";
 import { useRouter } from "nextjs-toploader/app";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 import { useState } from "react";
 import Image from "next/image";
+import Cookies from "universal-cookie";
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -72,11 +74,51 @@ export default function OnboardingForm() {
     }
   };
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-    toast.success("Profile updated successfully");
-    router.push("/dashboard");
-    // Handle form submission
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const cookies = new Cookies();
+  const user_id = cookies.get('user_id');
+  const onSubmit = async (data: FormValues) => {
+    try {
+      setIsSubmitting(true);
+
+      const formData = new FormData();
+
+      formData.append('user_id', user_id || '');
+      formData.append('name', data.name);
+      formData.append('occupation', data.occupation);
+      formData.append('institution', data.institution);
+      formData.append('branch', data.branch);
+      formData.append('address', data.address);
+      formData.append('onboarding', '1');
+      formData.append('req_data', 'userUpdate');
+
+      // If there's an image, add it to the form data
+      if (data.image) {
+        // Convert base64 to blob
+        const response = await fetch(data.image);
+        const blob = await response.blob();
+        const file = new File([blob], 'profile.jpg', { type: 'image/jpeg' });
+        formData.append('image', file);
+      }
+
+      const { data: result } = await axios.post(
+        'https://api.iistbihar.com/api/v1/users.php',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      console.log(result);
+
+      router.push("/dashboard");
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to update profile');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const nextStep = () => {
@@ -320,8 +362,12 @@ export default function OnboardingForm() {
                 Next
               </Button>
             ) : (
-              <Button type="submit" className="ml-auto">
-                Complete
+              <Button
+                type="submit"
+                className="ml-auto"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Updating...' : 'Complete'}
               </Button>
             )}
           </div>
